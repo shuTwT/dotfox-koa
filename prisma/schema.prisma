@@ -1,0 +1,302 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["omitApi"]
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+// 系统部门
+model SysDept {
+    deptId     Int       @id @default(autoincrement()) @map("dept_id") //部门id
+    parentId   Int       @default(0) @map("parent_id") //父部门id
+    ancestors  String    @default("") //祖级列表
+    deptName   String    @default("") @map("dept_name") //部门名称
+    sort       Int       @default(0) //显示顺序
+    type       Int       @default(1) //1公司2分公司3部门
+    leader     String? //负责人
+    phone      String? //联系电话
+    email      String? //邮箱
+    status     String    @default("0") @db.Char(1) //部门状态 (0正常 1禁用)
+    delFlag    Boolean   @default(false) @map("del_flag") //删除状态(false存在 true删除)
+    createBy   String    @default("") @map("create_by") //创建者
+    createTime DateTime  @default(now()) @map("create_time") // 创建时间
+    updateBy   String    @default("") @map("update_by") //更新者
+    updateTime DateTime? @updatedAt @map("update_time") //更新时间 @utc
+    remark     String?   @db.VarChar(500) //备注
+    SysUser    SysUser[]
+
+    @@map("sys_dept")
+}
+
+//系统用户
+model SysUser {
+    userId        Int       @id @default(autoincrement()) @map("user_id") //用户ID
+    deptId        Int?      @map("dept_id") //部门ID
+    userName      String    @map("user_name") //用户账号
+    nickName      String    @map("nick_name") //用户昵称
+    userType      String    @default("00") @map("user_type") //用户类型 (00系统用户)
+    email         String    @default("") //用户邮箱
+    phonenumber   String    @default("") //手机号码
+    sex           Int       @default(0) //用户性别(0未知1男2女)
+    avatar        String    @default("") //头像地址
+    password      String    @default("") //密码
+    loginIp       String    @default("") @map("login_ip") //最后登录的IP
+    loginDate     String?   @map("login_date") //最后登录时间
+    status        String    @default("0") @db.Char(1) //用户状态 (0正常 1禁用)
+    delFlag       Boolean   @default(false) @map("del_flag") //删除状态(false存在 true删除)
+    createBy      String    @default("") @map("create_by") //创建者
+    createTime    DateTime  @default(now()) @map("create_time") // 创建时间
+    updateBy      String    @default("") @map("update_by") //更新者
+    updateTime    DateTime? @updatedAt @map("update_time") //更新时间 @utc
+    remark        String?   @db.VarChar(500) //备注
+    posts         SysPost[]
+    dept          SysDept?   @relation(fields: [deptId], references: [deptId])
+
+    @@map("sys_user")
+}
+
+//系统岗位
+model SysPost {
+    postId     Int       @id @default(autoincrement()) @map("post_id") //岗位ID
+    postCode   String    @map("post_code") //岗位编码
+    postName   String    @map("post_name") //岗位名称
+    postSort   Int       @map("post_sort") //显示顺序
+    status     String    @default("0") @db.Char(1) //岗位状态 (0正常 1禁用)
+    delFlag    Boolean   @default(false) @map("del_flag") //删除状态(false存在 true删除)
+    createBy   String    @default("") @map("create_by") //创建者
+    createTime DateTime  @default(now()) @map("create_time") // 创建时间
+    updateBy   String    @default("") @map("update_by") //更新者
+    updateTime DateTime? @updatedAt @map("update_time") //更新时间 @utc
+    remark     String?   @db.VarChar(500) //备注
+    user       SysUser   @relation(fields: [postId], references: [userId])
+
+    @@map("sys_post")
+}
+
+//系统角色
+model SysRole {
+    roleId            Int       @id @default(autoincrement()) @map("role_id") //角色ID
+    roleName          String    @map("role_name") //角色名称
+    roleKey           String    @map("role_key") //角色权限字符串
+    roleSort          Int       @map("role_sort") //显示顺序
+    dataScope         String    @default("1") @map("data_scope") //数据范围(1全部数据2自定义数据3本部门数据4本部门及以下数据)
+    menuCheckStrictly Boolean   @default(true) @map("menu_check_strictly") //菜单树选择项是否关联显示
+    deptCheckStrictly Boolean   @default(true) @map("dept_check_strictly") //部门数选择项是否关联显示
+    status            String    @default("0") @db.Char(1) //角色状态 (0正常 1禁用)
+    delFlag           Boolean   @default(false) @map("del_flag") //删除状态(false存在 true删除)
+    createBy          String    @default("") @map("create_by") //创建者
+    createTime        DateTime  @default(now()) @map("create_time") // 创建时间
+    updateBy          String    @default("") @map("update_by") //更新者
+    updateTime        DateTime? @updatedAt @map("update_time") //更新时间 @utc
+    remark            String?   @db.VarChar(500) //备注
+
+    @@map("sys_role")
+}
+
+//系统菜单
+model SysMenu {
+    menuId          Int       @id @default(autoincrement()) @map("menu_id") //菜单ID
+    parentId        Int       @default(0) @map("parent_id") //父菜单ID
+    menuType        Int       @default(0) @map("menu_type") //菜单类型(0菜单1iframe2外链3按钮)
+    title           String    @default("") //标题
+    menuName        String    @map("menu_name") //菜单名称
+    path            String    @default("") //路由地址
+    component       String //组件路径
+    rank            Int?      @default(0) //显示顺序
+    redirect        String    @default("") //重定向
+    icon            String    @default("") //菜单图标
+    extraIcon       String    @default("") @map("extra_icon") //右侧图标
+    enterTransition String    @default("") @map("enter_transition") //入场动画
+    leaveTransition String    @default("") @map("leave_transition") //出场动画
+    activePath      String    @default("") @map("active_path")
+    auths           String    @default("")
+    frameSrc        String    @default("") @map("frame_src")
+    frameLoading    Boolean   @default(true) @map("frame_loading")
+    keepAlive       Boolean   @default(false) @map("keep_alive")
+    hiddenTag       Boolean   @default(false) @map("frame_tag")
+    showLink        Boolean   @default(true) @map("show_link")
+    showParent      Boolean   @default(false) @map("show_parent")
+    status          String    @default("0") @db.Char(1) //菜单状态 (0正常 1禁用)
+    createBy        String    @default("") @map("create_by") //创建者
+    createTime      DateTime  @default(now()) @map("create_time") // 创建时间
+    updateBy        String    @default("") @map("update_by") //更新者
+    updateTime      DateTime? @updatedAt @map("update_time") //更新时间 @utc
+    remark          String?   @db.VarChar(500) //备注
+
+    @@map("sys_menu")
+}
+
+// 系统用户角色关联表
+model SysUserRole {
+    userId Int @map("user_id")
+    roleId Int @map("role_id")
+
+    @@id([userId, roleId])
+    @@map("sys_user_role")
+}
+
+// 系统角色菜单关联表
+model SysRoleMenu {
+    roleId Int @map("role_id")
+    menuId Int @map("menu_id")
+
+    @@id([roleId, menuId])
+    @@map("sys_role_menu")
+}
+
+//系统操作日志
+model SysOperLog {
+    operId        Int    @id @default(autoincrement()) @map("oper_id")
+    title         String @default("") //模块标题
+    method        String @default("") //业务方法
+    requestMethod String @default("") @map("request_method") //请求方式
+    operName      String @default("") @map("oper_name") //操作人员
+    operUrl       String @default("") @map("oper_url") //请求URL
+    operIp        String @default("") @map("oper_ip") //主机IP
+    status        String @default("0") @db.Char(1) //操作状态(0正常1异常)
+
+    @@map("sys_oper_log")
+}
+
+//系统字典类型
+model SysDictType {
+    dictId     Int       @id @default(autoincrement()) @map("dict_id") //字典主键
+    dictName   String    @default("") @map("dict_name") //字典名称
+    dictType   String    @unique @default("") @map("dict_type") //字典类型
+    status     String    @default("0") @db.Char(1) //状态(0正常,1停用)
+    createBy   String    @default("") @map("create_by") //创建者
+    createTime DateTime  @default(now()) @map("create_time") // 创建时间
+    updateBy   String    @default("") @map("update_by") //更新者
+    updateTime DateTime? @updatedAt @map("update_time") //更新时间 @utc
+    remark     String?   @db.VarChar(500) //备注
+
+    @@map("sys_dict_type")
+}
+
+//系统字典数据表
+model SysDictData {
+    dictCode   Int       @id @default(autoincrement()) @map("dict_code") //字典编码
+    dictSort   Int       @default(0) @map("dict_sort") //字典排序
+    dictLabel  String    @default("") @map("dict_label") //字典标签
+    dictValue  String    @default("") @map("dict_value") //字典键值
+    dictType   String    @default("") @map("dict_type") //字典类型
+    status     String    @default("0") @db.Char(1) //状态(0正常,1停用)
+    createBy   String    @default("") @map("create_by") //创建者
+    createTime DateTime  @default(now()) @map("create_time") // 创建时间
+    updateBy   String    @default("") @map("update_by") //更新者
+    updateTime DateTime? @updatedAt @map("update_time") //更新时间 @utc
+    remark     String?   @db.VarChar(500) //备注
+
+    @@map("sys_dict_data")
+}
+
+//系统参数配置
+model SysConfig {
+    configId    Int       @id @default(autoincrement()) @map("config_id") //参数主键
+    configName  String    @default("") @map("config_name") //参数名称
+    configKey   String    @default("") @map("config_key") //参数键
+    configValue String    @default("") @map("config_value") @db.VarChar(500) //参数值
+    configType  String    @default("1") @map("config_type") //参数类型
+    createBy    String    @default("") @map("create_by") //创建者
+    createTime  DateTime  @default(now()) @map("create_time") // 创建时间
+    updateBy    String    @default("") @map("update_by") //更新者
+    updateTime  DateTime? @updatedAt @map("update_time") //更新时间 @utc
+    remark      String?   @db.VarChar(500) //备注
+
+    @@map("sys_config")
+}
+
+//系统访问记录
+model SysLogininfor {
+    infoId        Int    @id @default(autoincrement()) @map("info_id") //访问ID
+    userName      String @default("") @map("user_name") //用户账号
+    ipaddr        String @default("") //登录IP地址
+    loginLocation String @default("") @map("login_location") //登录地点
+    browser       String @default("") //浏览器类型
+    os            String @default("") //操作系统
+    status        String @default("0") @db.Char(1) //登录状态(0成功1失败)
+    msg           String @default("") //提示消息
+    loginTime     String @default("") @map("login_time") //访问时间
+
+    @@map("sys_logininfor")
+}
+
+//系统通知公告
+model SysNotice {
+    noticeId      Int       @id @default(autoincrement()) @map("notice_id") //公告ID
+    noticeTitle   String    @map("notice_title") //公告标题
+    noticeType    String    @map("notice_type") //公告类型(1公告2公告)
+    noticeContent String    @map("notice_content") //公告内容
+    noticeReaded  String    @default("0") @map("notice_readed") //是否已读(0未读1已读)
+    status        String    @default("0") @db.Char(1) //公告状态(0正常1关闭)
+    createBy      String    @default("") @map("create_by") //创建者
+    createTime    DateTime  @default(now()) @map("create_time") // 创建时间
+    updateBy      String    @default("") @map("update_by") //更新者
+    updateTime    DateTime? @updatedAt @map("update_time") //更新时间 @utc
+    remark        String?   @db.VarChar(500) //备注
+
+    @@map("sys_notice")
+}
+
+//代码生成业务表
+model GenTable {
+    tableId        Int              @id @default(autoincrement()) @map("table_id") //编号
+    tableName      String           @default("") @map("table_name") //表名称
+    tableComment   String           @default("") @map("table_comment") //表描述
+    subTableName   String           @default("") @map("sub_table_name") //关联子表的表名
+    subTableFkName String           @default("") @map("sub_table_fk_name") //子表关联的外键名
+    className      String           @default("") @map("class_name") //实体类名称
+    tplCategory    String           @default("") @map("tpl_category") //使用的模板
+    tplWebType     String           @default("") @map("tpl_web_type") //前端模板类型
+    packageName    String           @default("") @map("package_name") //生成包路径
+    moduleName     String           @default("") @map("module_name") //生成模块名
+    businessName   String           @default("") @map("business_name") //生成业务名
+    functionName   String           @default("") @map("function_name") //生成功能名
+    functionAuthor String           @default("") @map("function_author") //生成功能作者
+    genType        String           @default("") @map("gen_type") @db.Char(1) //生成代码方式
+    genPath        String           @default("") @map("gen_path") //生成路径
+    options        String           @default("") //其它生成选项
+    createBy       String           @default("") @map("create_by") //创建者
+    createTime     DateTime         @default(now()) @map("create_time") // 创建时间
+    updateBy       String           @default("") @map("update_by") //更新者
+    updateTime     DateTime?        @updatedAt @map("update_time") //更新时间 @utc
+    remark         String?          @db.VarChar(500) //备注
+    genTabColumns  GenTableColumn[]
+
+    @@map("gen_table")
+}
+
+model GenTableColumn {
+    columnId     Int       @id @default(autoincrement()) @map("column_id") //编号
+    tableId      Int       @map("table_id") //归属表编号
+    columnName   String    @map("column_name") //列名称
+    columnComent String    @map("column_coment") //列描述
+    columnType   String    @map("column_type") //列类型
+    javaType     String    @map("java_type") //JAVA类型
+    javaField    String    @map("java_field") //JAVA字段名
+    isPk         String    @map("is_pk") @db.Char(1) //是否主键(1是)
+    isIncrement  String    @map("is_increment") @db.Char(1) //是否自增(1是)
+    isRequired   String    @map("is_required") @db.Char(1) //是否必填(1是)
+    isInsert     String    @map("is_insert") @db.Char(1) //是否为插入字段(1是)
+    isEdit       String    @map("is_edit") @db.Char(1) //是否编辑字段(1是)
+    isList       String    @map("is_list") @db.Char(1) //是否列表字段(1是)
+    isQuery      String    @map("is_query") @db.Char(1) //是否查询字段(1是)
+    queryType    String    @default("EQ") @map("query_type") //查询方式(等于、不等于、大于、小于、范围)
+    htmlType     String    @map("html_type") //显示类型（文本框、文本域、下拉框、复选框、单选框、日期控件）
+    dictType     String    @map("dict_type") //字典类型
+    sort         Int //排序
+    createBy     String    @default("") @map("create_by") //创建者
+    createTime   DateTime  @default(now()) @map("create_time") // 创建时间
+    updateBy     String    @default("") @map("update_by") //更新者
+    updateTime   DateTime? @updatedAt @map("update_time") //更新时间 @utc
+    remark       String?   @db.VarChar(500) //备注
+    GenTable     GenTable? @relation(fields: [tableId], references: [tableId])
+
+    @@map("gen_table_column")
+}
