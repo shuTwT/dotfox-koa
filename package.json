@@ -7,31 +7,30 @@
     "seed": "tsx prisma/seed.ts"
   },
   "scripts": {
-    "dev": "cross-env NODE_ENV=development tsx watch ./app.ts",
-    "seed": "tsx prisma/seed.ts",
-    "start": "cross-env NODE_ENV=production tsx ./app.ts",
+    "dev": "bun --watch run ./app.ts",
+    "seed": "bun run prisma/seed.ts",
+    "start": "bun run ./app.ts",
     "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@types/bun": "^1.1.2",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/koa": "^2.15.0",
     "@types/koa-router": "^7.4.8",
     "@types/koa-send": "^4.1.6",
-    "@types/node": "^20.12.7",
+    "@types/node": "^20.12.12",
     "@types/ua-parser-js": "^0.7.39",
-    "cross-env": "^7.0.3",
-    "prisma": "^5.13.0",
-    "tsx": "^4.7.2",
+    "prisma": "^5.14.0",
     "typescript": "5.3.3"
   },
   "dependencies": {
-    "@prisma/client": "^5.13.0",
+    "@prisma/client": "^5.14.0",
     "captcha.gif": "^1.0.11",
     "cron": "^3.1.7",
-    "dayjs": "^1.11.10",
+    "dayjs": "^1.11.11",
     "dotenv": "^16.4.5",
     "ioredis": "^5.4.1",
     "jsonwebtoken": "^9.0.2",
@@ -48,7 +47,7 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "workspaces":[
+  "workspaces": [
     "packages/*"
   ]
 }

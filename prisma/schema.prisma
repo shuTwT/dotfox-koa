@@ -36,27 +36,27 @@ model SysDept {
 
 //系统用户
 model SysUser {
-    userId        Int       @id @default(autoincrement()) @map("user_id") //用户ID
-    deptId        Int?      @map("dept_id") //部门ID
-    userName      String    @map("user_name") //用户账号
-    nickName      String    @map("nick_name") //用户昵称
-    userType      String    @default("00") @map("user_type") //用户类型 (00系统用户)
-    email         String    @default("") //用户邮箱
-    phonenumber   String    @default("") //手机号码
-    sex           Int       @default(0) //用户性别(0未知1男2女)
-    avatar        String    @default("") //头像地址
-    password      String    @default("") //密码
-    loginIp       String    @default("") @map("login_ip") //最后登录的IP
-    loginDate     String?   @map("login_date") //最后登录时间
-    status        String    @default("0") @db.Char(1) //用户状态 (0正常 1禁用)
-    delFlag       Boolean   @default(false) @map("del_flag") //删除状态(false存在 true删除)
-    createBy      String    @default("") @map("create_by") //创建者
-    createTime    DateTime  @default(now()) @map("create_time") // 创建时间
-    updateBy      String    @default("") @map("update_by") //更新者
-    updateTime    DateTime? @updatedAt @map("update_time") //更新时间 @utc
-    remark        String?   @db.VarChar(500) //备注
-    posts         SysPost[]
-    dept          SysDept?   @relation(fields: [deptId], references: [deptId])
+    userId      Int       @id @default(autoincrement()) @map("user_id") //用户ID
+    deptId      Int?      @map("dept_id") //部门ID
+    userName    String    @map("user_name") //用户账号
+    nickName    String    @map("nick_name") //用户昵称
+    userType    String    @default("00") @map("user_type") //用户类型 (00系统用户)
+    email       String    @default("") //用户邮箱
+    phonenumber String    @default("") //手机号码
+    sex         Int       @default(0) //用户性别(0未知1男2女)
+    avatar      String    @default("") //头像地址
+    password    String    @default("") //密码
+    loginIp     String    @default("") @map("login_ip") //最后登录的IP
+    loginDate   String?   @map("login_date") //最后登录时间
+    status      String    @default("0") @db.Char(1) //用户状态 (0正常 1禁用)
+    delFlag     Boolean   @default(false) @map("del_flag") //删除状态(false存在 true删除)
+    createBy    String    @default("") @map("create_by") //创建者
+    createTime  DateTime  @default(now()) @map("create_time") // 创建时间
+    updateBy    String    @default("") @map("update_by") //更新者
+    updateTime  DateTime? @updatedAt @map("update_time") //更新时间 @utc
+    remark      String?   @db.VarChar(500) //备注
+    posts       SysPost[]
+    dept        SysDept?  @relation(fields: [deptId], references: [deptId])
 
     @@map("sys_user")
 }

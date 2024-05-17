@@ -17,7 +17,7 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2020",
-    "types": ["node"],
+    "types": ["node","bun"],
     "useDefineForClassFields": true,
   },
   "exclude": ["dist", "node_modules", "bin"],
