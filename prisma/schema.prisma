@@ -300,3 +300,24 @@ model GenTableColumn {
 
     @@map("gen_table_column")
 }
+
+model goviewProject{
+    id String @id
+    projectName String @map("project_name")
+    state String
+    createTime DateTime @default(now()) @map("create_time")
+    createBy String @default("") @map("create_by")
+    delFlag    Boolean   @default(false) @map("del_flag") //删除状态(false存在 true删除)
+    indexImage String @default("") @map("index_image")
+    remark String @default("")
+    @@map("goview_project")
+}
+
+model goviewProjectData{
+    id String @id
+    projectId String @map("project_id")
+    createTime DateTime @default(now()) @map("create_time")
+    createBy String @default("") @map("create_by")
+    content String
+    @@map("goview_project_data")
+}
