@@ -1,6 +1,8 @@
 import UAParser from "ua-parser-js";
 import log4js from "./utils/log4js.js";
 import { LoginUser } from "./core/model/LoginUser.js";
+
+
 declare global {
   namespace globalThis {
     var native: unknown;

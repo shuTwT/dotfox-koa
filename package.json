@@ -44,7 +44,8 @@
     "nanoid": "^5.0.7",
     "node-fetch": "^3.3.2",
     "reflect-metadata": "^0.2.2",
-    "ua-parser-js": "^1.0.37"
+    "ua-parser-js": "^1.0.37",
+    "xml2js": "^0.6.2"
   },
   "engines": {
     "node": ">=18.0.0"
