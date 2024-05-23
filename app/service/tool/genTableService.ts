@@ -1,9 +1,10 @@
 import path from "node:path";
 import { Prisma, type GenTable } from "@prisma/client";
-import log4js from "../../../utils/log4js";
-import prisma from "../../../utils/prisma";
-import { TableEntity } from "../../../common/entity/tableEntity";
-export class GenTableService {
+import log4js from "app/utils/log4js";
+import prisma from "app/utils/prisma";
+import { TableEntity } from "app/common/entity/tableEntity";
+import { BaseService } from "app/common/base/baseService";
+export class GenTableService extends BaseService {
   async selectGentableById(id: number): Promise<GenTable | void> {
     try {
       const genTable = await prisma.genTable.findUnique({

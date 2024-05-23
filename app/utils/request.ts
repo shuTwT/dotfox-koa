@@ -1,8 +1,9 @@
 import fs from "node:fs"
 import path from "node:path"
 import log4js from "./log4js"
-import fetch  from "node-fetch"
+import fetch from "node-fetch"
 import { nanoid } from "nanoid"
+
 export function downloadFile(url:string):Promise<string>{
     const arr1 = url.split('/')
     const fullname = arr1.slice(arr1.length-1,arr1.length).toString()

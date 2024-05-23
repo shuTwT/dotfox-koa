@@ -1,7 +1,7 @@
 import { SysConfig } from "@prisma/client";
-import { CacheConstants } from "../../common/constant/CacheConstants";
-import prisma from "../../utils/prisma";
-import redis from "../../utils/redis";
+import { CacheConstants } from "app/common/constant/CacheConstants";
+import prisma from "app/utils/prisma";
+import redis from "app/utils/redis";
 
 let isInited = false;
 
