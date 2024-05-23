@@ -10,17 +10,32 @@ import './env'
 import Koa from "koa";
 import * as dotenv from "dotenv";
 import path from 'node:path';
-import koaStatic from "./middleware/staticMiddleware.js";
-import koaLogger from "./middleware/koaLogger.js";
+import koaStatic from "./app/middleware/staticMiddleware.js";
+import koaLogger from "./app/middleware/koaLogger.js";
 import { createServer } from "node:http";
-const { createRoutes } = await import( "./router/routes.js");
-import * as log4js from "./utils/log4js.js"
-import jwtMiddleware from "./middleware/jwtMiddleware.js";
-import uaMiddleware from "./middleware/uaMiddleware.js";
+import { createRoutes } from "./app/router/routes.js";
+import * as log4js from "./app/utils/log4js.js"
+import jwtMiddleware from "./app/middleware/jwtMiddleware.js";
+import uaMiddleware from "./app/middleware/uaMiddleware.js";
 import {koaBody} from 'koa-body'
-import demoMidleware from "./middleware/demoMidleware.js";
+import demoMidleware from "./app/middleware/demoMidleware.js";
 
-dotenv.config();
+dotenv.config({
+    path:".env"
+});
+
+dotenv.config({
+    path:".env.local"
+});
+
+if(process.env.NODE_ENV){
+    dotenv.config({
+        path:`.env.${process.env.NODE_ENV}`
+    });
+    dotenv.config({
+        path:`.env.${process.env.NODE_ENV}.local`
+    });
+}
 
 const port = Number.parseInt(process.env.APP_PORT ||'3000');
 

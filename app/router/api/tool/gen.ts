@@ -1,6 +1,6 @@
 import type { DefaultState, Context } from "koa";
 import Router from "koa-router";
-import prisma from "../../../utils/prisma";
+import prisma from "../../../../utils/prisma";
 import { parseQuery, str2num } from "../utils";
 import { GenTableService } from "../../../service/tool/genTableService";
 

@@ -1,6 +1,6 @@
 import UAParser from "ua-parser-js";
-import log4js from "./utils/log4js.js";
-import { LoginUser } from "./core/model/LoginUser.js";
+import log4js from "app/utils/log4js";
+import { LoginUser } from "app/core/model/LoginUser";
 
 
 declare global {

@@ -1,11 +1,11 @@
 import type { Context, Next } from "koa";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import redis from "../utils/redis";
-import { LoginUser } from "../core/model/LoginUser";
-import log4js from "../utils/log4js";
+import redis from "app/utils/redis";
+import { LoginUser } from "app/core/model/LoginUser";
+import log4js from "app/utils/log4js";
 import { SysUser } from "@prisma/client";
 import { nanoid } from "nanoid";
-import prisma from "../utils/prisma";
+import prisma from "app/utils/prisma";
 
 export default function (whiteList: string[] = [], callback?: () => void) {
   return async function (ctx: Context, next: Next) {

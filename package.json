@@ -7,9 +7,9 @@
     "seed": "tsx prisma/seed.ts"
   },
   "scripts": {
-    "dev": "bun --watch run ./app.ts",
+    "dev": "cross-env NODE_ENV=development tsx watch ./app.ts",
     "seed": "tsx prisma/seed.ts",
-    "start": "bun run ./app.ts",
+    "start": "cross-env NODE_ENV=production tsx watch ./app.ts",
     "postinstall": "prisma generate"
   },
   "keywords": [],
@@ -23,6 +23,7 @@
     "@types/koa-send": "^4.1.6",
     "@types/node": "^20.12.12",
     "@types/ua-parser-js": "^0.7.39",
+    "cross-env": "^7.0.3",
     "prisma": "^5.14.0",
     "tsx": "^4.10.3",
     "typescript": "5.3.3"
@@ -49,8 +50,5 @@
   },
   "engines": {
     "node": ">=18.0.0"
-  },
-  "workspaces": [
-    "packages/*"
-  ]
+  }
 }

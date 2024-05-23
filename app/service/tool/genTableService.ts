@@ -1,8 +1,8 @@
 import path from "node:path";
 import { Prisma, type GenTable } from "@prisma/client";
-import log4js from "../../utils/log4js";
-import prisma from "../../utils/prisma";
-import { TableEntity } from "../../common/entity/tableEntity";
+import log4js from "../../../utils/log4js";
+import prisma from "../../../utils/prisma";
+import { TableEntity } from "../../../common/entity/tableEntity";
 export class GenTableService {
   async selectGentableById(id: number): Promise<GenTable | void> {
     try {
