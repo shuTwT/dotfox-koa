@@ -1,7 +1,7 @@
 import type { DefaultState, Context } from "koa";
 import Router from "koa-router";
 import prisma from "../../../utils/prisma";
-import { parseQuery, str2num } from "../utils";
+import { parseQuery, str2num } from "../../../utils/utils";
 import dayjs from "dayjs";
 
 const roleRouter = new Router<DefaultState, Context>({ prefix: "/role" });

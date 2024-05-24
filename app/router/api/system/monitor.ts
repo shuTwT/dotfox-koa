@@ -2,7 +2,7 @@ import type { DefaultState, Context } from "koa";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import Router from "koa-router";
 import prisma from "../../../utils/prisma";
-import { parseQuery, str2num } from "../utils";
+import { parseQuery, str2num } from "../../../utils/utils";
 import dayjs from "dayjs";
 import os from "node:os";
 import process from "node:process";

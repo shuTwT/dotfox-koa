@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import type { TransformCallback } from "stream";
 import { Stream, Transform } from "stream";
 import EventEmitter from "events";
-import { parseQuery, str2num } from "../utils";
+import { parseQuery, str2num } from "../../../utils/utils";
 
 class SSEStream extends Transform {
   constructor() {

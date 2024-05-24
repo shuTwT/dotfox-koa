@@ -19,8 +19,7 @@ import jwtMiddleware from "app/middleware/jwtMiddleware";
 import uaMiddleware from "app/middleware/uaMiddleware";
 import {koaBody} from 'koa-body'
 import demoMidleware from "app/middleware/demoMidleware";
-import controller from 'app/controller';
-console.log(controller)
+
 dotenv.config({
     path:".env"
 });
