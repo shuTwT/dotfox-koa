@@ -1,6 +1,8 @@
 import UAParser from "ua-parser-js";
 import log4js from "app/utils/log4js";
 import { LoginUser } from "app/core/model/LoginUser";
+import type { Context, DefaultState, ParameterizedContext } from "koa";
+import Router from "koa-router";
 
 
 declare global {
@@ -12,6 +14,10 @@ declare global {
   interface BigInt {
     toJSON(): string;
   }
+  interface AppRouterContext extends ParameterizedContext<DefaultState,Context & Router.IRouterParamContext<DefaultState, Context>, any>{
+
+  }
+  type Next= ()=>Promise<any>
 }
 
 BigInt.prototype.toJSON = function (): string {
@@ -29,6 +35,11 @@ declare module "koa" {
     getLoginUser: () => LoginUser;
   }
 }
+
+export interface AppContext{
+
+}
+ 
 
 interface DotEnv {
   DATABASE_URL: string;

@@ -4,11 +4,11 @@ import prisma from "app/utils/prisma";
 import { parseQuery, str2num } from "app/utils/utils";
 import dayjs from "dayjs";
 
-export class ConfigController extends BaseController {
+export default class ConfigController extends BaseController {
   /**
    * @description 获取配置参数列表
    */
-  async list(ctx: Koa.Context, next: Koa.Next) {
+  async list(ctx: AppRouterContext, next: Koa.Next) {
     const query = ctx.query as any;
     const configName = parseQuery(query, "configName");
     const configKey = parseQuery(query, "configKey");
@@ -64,7 +64,7 @@ export class ConfigController extends BaseController {
   /**
    * 根据id查询
    */
-  async selectConfigById(ctx: Koa.Context, next: Koa.Next) {
+  async selectConfigById(ctx: AppRouterContext, next: Koa.Next) {
     const params = ctx.params;
     const configId = Number(params["configId"]);
     try {
@@ -88,7 +88,7 @@ export class ConfigController extends BaseController {
   /**
    * 根据 key查询
    */
-  async selectConfigByKey(ctx: Koa.Context, next: Koa.Next) {
+  async selectConfigByKey(ctx: AppRouterContext, next: Koa.Next) {
     const params = ctx.params;
     const configKey = params["configKey"];
     try {
@@ -112,7 +112,7 @@ export class ConfigController extends BaseController {
   /**
    * 新增配置参数
    */
-  async createConfig(ctx: Koa.Context, next: Koa.Next) {
+  async createConfig(ctx: AppRouterContext, next: Koa.Next) {
     const body = ctx.request.body as any;
     const loginUser = ctx.getLoginUser();
     const date = dayjs();
@@ -141,7 +141,7 @@ export class ConfigController extends BaseController {
   /**
    * 修改配置参数
    */
-  async editConfig(ctx: Koa.Context, next: Koa.Next) {
+  async editConfig(ctx: AppRouterContext, next: Koa.Next) {
     const params = ctx.params;
     const configId = Number(params["configId"]);
     const body = ctx.request.body as any;
@@ -175,7 +175,7 @@ export class ConfigController extends BaseController {
   /**
    * 删除配置参数
    */
-  async deteleConfig(ctx: Koa.Context, next: Koa.Next) {
+  async deteleConfig(ctx: AppRouterContext, next: Koa.Next) {
     const params = ctx.params;
     const configId = Number(params["configId"]);
     try {
@@ -198,7 +198,7 @@ export class ConfigController extends BaseController {
   /**
    * 刷新配置
    */
-  async refreshCache(ctx: Koa.Context, next: Koa.Next) {
+  async refreshCache(ctx: AppRouterContext, next: Koa.Next) {
     ctx.body = {
       code: 200,
       msg: "success",
