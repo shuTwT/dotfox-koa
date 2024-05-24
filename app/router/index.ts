@@ -15,6 +15,4 @@ export const createRoutes = (app: Koa<Koa.DefaultState, Koa.Context>) => {
     .use(router.routes())
     .use(apiRouter.routes())
     .use(apiRouter.allowedMethods())
-   
-      
 };

@@ -10,16 +10,17 @@ import './env'
 import Koa from "koa";
 import * as dotenv from "dotenv";
 import path from 'node:path';
-import koaStatic from "./app/middleware/staticMiddleware.js";
-import koaLogger from "./app/middleware/koaLogger.js";
+import koaStatic from "app/middleware/staticMiddleware";
+import koaLogger from "app/middleware/koaLogger";
 import { createServer } from "node:http";
-import { createRoutes } from "./app/router/routes.js";
-import * as log4js from "./app/utils/log4js.js"
-import jwtMiddleware from "./app/middleware/jwtMiddleware.js";
-import uaMiddleware from "./app/middleware/uaMiddleware.js";
+import { createRoutes } from "app/router/index";
+import * as log4js from "app/utils/log4js"
+import jwtMiddleware from "app/middleware/jwtMiddleware";
+import uaMiddleware from "app/middleware/uaMiddleware";
 import {koaBody} from 'koa-body'
-import demoMidleware from "./app/middleware/demoMidleware.js";
-
+import demoMidleware from "app/middleware/demoMidleware";
+import controller from 'app/controller';
+console.log(controller)
 dotenv.config({
     path:".env"
 });
