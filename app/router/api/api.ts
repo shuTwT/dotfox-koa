@@ -6,6 +6,7 @@ import { asyncRoutesRouter } from "./asyncRoutes.js";
 import { monitorRouter } from "./system/monitor.js";
 import { uploadRouter } from "./upload.js";
 import { toolRouter } from "./tool/index.js";
+import { flowableRouter } from "./flowable.js";
 
 const apiRouter = new Router<Koa.DefaultState, Koa.Context>({ prefix: "/api" });
 
@@ -15,5 +16,6 @@ apiRouter.use(monitorRouter.routes(), monitorRouter.allowedMethods());
 apiRouter.use(asyncRoutesRouter.routes(), asyncRoutesRouter.allowedMethods());
 apiRouter.use(uploadRouter.routes(),uploadRouter.allowedMethods())
 apiRouter.use(toolRouter.routes(),toolRouter.allowedMethods())
+apiRouter.use(flowableRouter.routes(),flowableRouter.allowedMethods())
 
 export { apiRouter };

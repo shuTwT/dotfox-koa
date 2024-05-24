@@ -8,7 +8,7 @@ export default class GenTableController extends BaseController {
   /**
    * 查询代码生成列表
    */
-  async list(ctx: Koa.Context, next: Koa.Next) {
+  async list(ctx: AppRouterContext, next: Next) {
     const pageSize = str2num(parseQuery(ctx.query, "pageSize"), 10);
     const pageNum = str2num(parseQuery(ctx.query, "pageNum"), 1);
     const [list, count] = await prisma.$transaction([
@@ -32,7 +32,7 @@ export default class GenTableController extends BaseController {
   /**
    * 查询数据库列表
    */
-  async db(ctx: Koa.Context, next: Koa.Next) {
+  async db(ctx: AppRouterContext, next: Next) {
     const tableName = parseQuery(ctx.query, "tableName") ?? "";
     const tableComment = parseQuery(ctx.query, "tableComment") ?? "";
     const pageSize = str2num(parseQuery(ctx.query, "pageSize"), 10);
@@ -81,11 +81,11 @@ export default class GenTableController extends BaseController {
   /**
    * 查询数据表字段列表
    */
-  async column(ctx: Koa.Context, next: Koa.Next) {}
+  async column(ctx: AppRouterContext, next: Next) {}
   /**
    * 导入表结构
    */
-  async importTable(ctx: Koa.Context, next: Koa.Next) {
+  async importTable(ctx: AppRouterContext, next: Next) {
     const body = ctx.request.body;
     const loginUser = ctx.getLoginUser();
     const tableNames: string = body.tableNames;
@@ -102,7 +102,7 @@ export default class GenTableController extends BaseController {
   /**
    * 创建表结构
    */
-  async createTable(ctx: Koa.Context, next: Koa.Next) {
+  async createTable(ctx: AppRouterContext, next: Next) {
     const body = ctx.request.body;
     const sql: string = body.sql;
 
@@ -111,27 +111,27 @@ export default class GenTableController extends BaseController {
   /**
    * 预览代码
    */
-  async previewTable(ctx: Koa.Context, next: Koa.Next) {}
+  async previewTable(ctx: AppRouterContext, next: Next) {}
   /**
    * 生成代码(下载)
    */
-  async downloadTable(ctx: Koa.Context, next: Koa.Next) {}
+  async downloadTable(ctx: AppRouterContext, next: Next) {}
   /**
    * 生成代码(自定义路径)
    */
-  async genCode(ctx: Koa.Context, next: Koa.Next) {}
+  async genCode(ctx: AppRouterContext, next: Next) {}
   /**
    * 同步数据库
    */
-  async syncDb(ctx: Koa.Context, next: Koa.Next) {}
+  async syncDb(ctx: AppRouterContext, next: Next) {}
   /**
    * 批量生成代码
    */
-  async batchGenCode(ctx: Koa.Context, next: Koa.Next) {}
+  async batchGenCode(ctx: AppRouterContext, next: Next) {}
   /**
    * 修改代码生成业务
    */
-  async selectTable(ctx: Koa.Context, next: Koa.Next) {
+  async selectTable(ctx: AppRouterContext, next: Next) {
     const tableId = Number(ctx.params["tableId"]);
     try {
       const table = await prisma.genTable.findUnique({
@@ -157,7 +157,7 @@ export default class GenTableController extends BaseController {
   /**
    * 修改保存代码生成业务
    */
-  async editTable(ctx: Koa.Context, next: Koa.Next) {
+  async editTable(ctx: AppRouterContext, next: Next) {
     const tableId = Number(ctx.params["tableId"]);
     const body = ctx.request.body;
     try {
@@ -217,5 +217,5 @@ export default class GenTableController extends BaseController {
   /**
    * 删除代码生成
    */
-  async deleteTable(ctx: Koa.Context, next: Koa.Next) {}
+  async deleteTable(ctx: AppRouterContext, next: Next) {}
 }
