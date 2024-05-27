@@ -23,7 +23,7 @@ export default class FlowableController extends BaseController {
             deploymentTime: "2024-05-25 23:59:28"
         }
         ],
-        size:10,
+        pageSize:10,
         total:1,
       }
     }
@@ -75,7 +75,7 @@ export default class FlowableController extends BaseController {
       msg:"success",
       data:{
         records:[],
-        size:10,
+        pageSize:10,
         total:0,
       }
     }
@@ -98,7 +98,7 @@ export default class FlowableController extends BaseController {
       msg:"success",
       data:{
         records:[],
-        size:10,
+        pageSize:10,
         total:0,
       }
     }
@@ -118,7 +118,7 @@ export default class FlowableController extends BaseController {
       msg:"success",
       data:{
         records:[],
-        size:10,
+        pageSize:10,
         total:0,
       }
     }
@@ -159,7 +159,7 @@ export default class FlowableController extends BaseController {
       msg:"success",
       data:{
         records:[],
-        size:10,
+        pageSize:10,
         total:0,
       }
     }
@@ -173,7 +173,7 @@ export default class FlowableController extends BaseController {
       msg:"success",
       data:{
         records:[],
-        size:10,
+        pageSize:10,
         total:0,
       }
     }
@@ -187,7 +187,7 @@ export default class FlowableController extends BaseController {
       msg:"success",
       data:{
         records:[],
-        size:10,
+        pageSizesize:10,
         total:0,
       }
     }
