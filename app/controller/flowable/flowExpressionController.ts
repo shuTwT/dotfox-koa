@@ -2,7 +2,7 @@ import { BaseController } from "app/common/base/baseController";
 import prisma from "app/utils/prisma";
 import { parseQuery, str2num } from "app/utils/utils";
 
-export default class ExpressionController extends BaseController {
+export default class FlowExpressionController extends BaseController {
   async list(ctx: AppRouterContext, next: Next) {
     const query = ctx.query;
     const pageSize = str2num(parseQuery(query, "pageSize"), 10);

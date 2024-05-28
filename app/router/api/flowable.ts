@@ -1,34 +1,38 @@
-import ExpressionController from "app/controller/flowable/expressionController";
-import ListenerController from "app/controller/flowable/listenerController";
-import FlowableController from "app/controller/flowableController";
+import FlowDefinitionController from "app/controller/flowable/flowDefinitionController";
+import FlowExpressionController from "app/controller/flowable/flowExpressionController";
+import FlowFormController from "app/controller/flowable/flowFormController";
+import FlowListenerController from "app/controller/flowable/flowListenerController";
+import FlowTaskController from "app/controller/flowable/flowTaskController";
 import type { DefaultState, Context } from "koa";
 import Router from "koa-router";
 
 const router = new Router<DefaultState, Context>({prefix:"/flowable"});
-const flowableController = new FlowableController()
-const expressionController = new ExpressionController()
-const listenerController = new ListenerController()
+const flowDefinitionController = new FlowDefinitionController()
+const flowFormController = new FlowFormController()
+const flowExpressionController = new FlowExpressionController()
+const flowListenerController = new FlowListenerController()
+const flowTaskController = new FlowTaskController()
 
-router.get("/definition",flowableController.definitionList)
-router.post("/definition",flowableController.createDefinition)
-router.put("/definition",flowableController.updateDefinition)
-router.delete("/definition/:id",flowableController.deleteDefinition)
-router.get("/form",flowableController.formList)
-router.post("/form",flowableController.createForm)
-router.put("/form/:id",flowableController.updateForm)
-router.post("/form/add-deploy-form",flowableController.addDeployForm)
-router.delete("/form/:id",flowableController.deleteForm)
-router.get("/expression",expressionController.list)
-router.post("/expression",expressionController.add)
-router.put("/expression/:id",expressionController.edit)
-router.delete("/expression/:id",expressionController.remove)
-router.get("/listener",listenerController.list)
-router.post("/listener",listenerController.add)
-router.put("/listener/:id",listenerController.edit)
-router.delete("/listener/:id",listenerController.remove)
-router.get("/task/my-process",flowableController.myProcessList)
-router.get("/task/todo",flowableController.todoList)
-router.get("/task/finished",flowableController.finishedList)
+router.get("/definition",flowDefinitionController.list)
+router.post("/definition",flowDefinitionController.add)
+router.put("/definition",flowDefinitionController.edit)
+router.delete("/definition/:id",flowDefinitionController.remove)
+router.get("/form",flowFormController.list)
+router.post("/form",flowFormController.add)
+router.put("/form/:id",flowFormController.edit)
+router.post("/form/add-deploy-form",flowFormController.deploy)
+router.delete("/form/:id",flowFormController.remove)
+router.get("/expression",flowExpressionController.list)
+router.post("/expression",flowExpressionController.add)
+router.put("/expression/:id",flowExpressionController.edit)
+router.delete("/expression/:id",flowExpressionController.remove)
+router.get("/listener",flowListenerController.list)
+router.post("/listener",flowListenerController.add)
+router.put("/listener/:id",flowListenerController.edit)
+router.delete("/listener/:id",flowListenerController.remove)
+router.get("/task/my-process",flowTaskController.myProcessList)
+router.get("/task/todo",flowTaskController.todoList)
+router.get("/task/finished",flowTaskController.finishedList)
 
 export {
     router as flowableRouter

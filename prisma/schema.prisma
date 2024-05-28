@@ -301,7 +301,7 @@ model GenTableColumn {
     @@map("gen_table_column")
 }
 
-model goviewProject {
+model GoviewProject {
     id          String   @id
     projectName String   @map("project_name")
     state       String
@@ -325,16 +325,16 @@ model goviewProjectData {
 }
 
 //流程
-model flow_channel_definition {
+model flw_channel_definition {
     id             String    @id
     name           String?
     version        Int?
     key            String?
     category       String?
-    deploymentId   String? @map("deployment_id")
+    deploymentId   String?   @map("deployment_id")
     createTime     DateTime? @map("create_time")
-    tenantId       String? @map("tenant_id")
-    resourceName   String? @map("resource_id")
+    tenantId       String?   @map("tenant_id")
+    resourceName   String?   @map("resource_id")
     description    String?
     type           String?
     implementation String?
@@ -342,7 +342,7 @@ model flow_channel_definition {
     @@map("flow_channel_definition")
 }
 
-model flow_event_definition {
+model flw_event_definition {
     id           String  @id
     name         String?
     version      Int?
@@ -359,24 +359,100 @@ model flw_event_deployment {
     name              String?
     category          String?
     deployTime        DateTime? @map("deployTime_id")
-    tenantId          String? @map("tenant_id")
-    parentDeployentId String? @map("parent_deployent_id")
+    tenantId          String?   @map("tenant_id")
+    parentDeployentId String?   @map("parent_deployent_id")
 }
 
 model flw_event_resource {
     id            String  @id
     name          String?
     deploymentId  String? @map("deployment_id")
-    resourceBytes Bytes @map("resource_bytes")
+    resourceBytes Bytes   @map("resource_bytes")
 }
 
-model sysExpression{
-    id Int @id @default(autoincrement())
-    name String?
+// 流程表达式
+model SysExpression {
+    id         Int       @id @default(autoincrement())
+    name       String?
     expression String?
     createTime DateTime? @default(now()) @map("create_time")
     updateTime DateTime? @updatedAt @map("update_time")
-    createBy String?  @map("create_by")
-    updateBy String? @map("update_by")
+    createBy   String?   @map("create_by")
+    updateBy   String?   @map("update_by")
+
     @@map("sys_expression")
+}
+
+// 流程监听器
+model SysListener {
+    id         Int       @id @default(autoincrement())
+    name       String?
+    type       String?   @db.VarChar(2)
+    eventType  String?   @map("event_type")
+    valueType  String?   @map("value_type")
+    value      String?
+    createTime DateTime? @default(now()) @map("create_time")
+    updateTime DateTime? @updatedAt @map("update_time")
+    createBy   String?   @map("create_by")
+    updateBy   String?   @map("update_by")
+    status     String    @default("0") @db.Char(1)
+    remark     String?
+
+    @@map("sys_listener")
+}
+
+// 流程表单
+model SysForm {
+    formId      Int       @id @default(autoincrement())
+    formName    String?
+    formContent String    @db.LongText
+    createTime  DateTime? @default(now()) @map("create_time")
+    updateTime  DateTime? @updatedAt @map("update_time")
+    createBy    String?   @map("create_by")
+    updateBy    String?   @map("update_by")
+    status      String    @default("0") @db.Char(1)
+    remark      String?
+
+    @@map("sys_form")
+}
+
+model act_re_procdef {
+    id                   String              @id
+    rev                  Int?
+    category             String?
+    name                 String?
+    key                  String
+    version              Int
+    deploymentId         String?             @map("deployment_id")
+    resourceName         String?             @map("resource_name")
+    dgrmResourceName     String?             @map("dgrm_resource_name")
+    description          String?
+    hasStartFormKey      String?             @map("has_start_form_key")
+    hasGraphicalNotation Int?                @map("has_graphical_notation")
+    suspensionState      Int?                @map("suspension_state")
+    tenantId             String              @default("") @map("tenant_id")
+    englishVersion       String?             @map("english_version")
+    derivedFrom          String?             @map("derived_from")
+    derivedFromRoot      String?             @map("derived_form_root")
+    derivedVersion       Int                 @default(0) @map("derived_version")
+    act_re_deployments   act_re_deployment[]
+
+    @@unique([key, version, derivedVersion, tenantId])
+    @@map("act_re_procdef")
+}
+
+model act_re_deployment {
+    id                 String          @id
+    name               String?
+    category           String?
+    key                String?
+    tenantId           String          @map("tenant_id")
+    deployTime         DateTime?       @map("deploy_time")
+    derivedFrom        String?         @map("derived_from")
+    derivedFromRoot    String?         @map("derived_from_root")
+    parentDeploymentId String?         @map("parent_deployment_id")
+    act_re_procdef     act_re_procdef? @relation(fields: [id], references: [id])
+
+
+    @@map("act_re_deployment")
 }
