@@ -358,6 +358,13 @@
   resolved "https://registry.npmmirror.com/@types/ua-parser-js/-/ua-parser-js-0.7.39.tgz"
   integrity sha512-P/oDfpofrdtF5xw433SPALpdSchtJmY7nsJItf8h3KXqOslkbySh8zq4dSWXH2oTjRvJ5PczVEoCZPow6GicLg==
 
+"@types/xml2js@^0.4.14":
+  version "0.4.14"
+  resolved "https://registry.npmmirror.com/@types/xml2js/-/xml2js-0.4.14.tgz#5d462a2a7330345e2309c6b549a183a376de8f9a"
+  integrity sha512-4YnrRemBShWRO2QjvUin8ESA41rH+9nQGLUGZV/1IDhi3SL9OhdpNC/MrulTWuptXKwhx/aDxE7toV0f/ypIXQ==
+  dependencies:
+    "@types/node" "*"
+
 accepts@^1.3.5:
   version "1.3.8"
   resolved "https://registry.npmmirror.com/accepts/-/accepts-1.3.8.tgz"
@@ -1146,7 +1153,7 @@ minimatch@^9.0.1:
 
 moddle-xml@^11.0.0:
   version "11.0.0"
-  resolved "https://registry.npmmirror.com/moddle-xml/-/moddle-xml-11.0.0.tgz"
+  resolved "https://registry.npmmirror.com/moddle-xml/-/moddle-xml-11.0.0.tgz#4f6084e7bc09181844f292b795e8752eac93eb9a"
   integrity sha512-L3Sseepfcq9Uy0iIfqEDTXSoYLva1Y/JGbN/4AMOeQ6cqbu8Ma/SDJIdOFm7smsAa64j2z3SwCGG3FIilQVnUg==
   dependencies:
     min-dash "^4.0.0"
@@ -1154,7 +1161,7 @@ moddle-xml@^11.0.0:
 
 moddle@^7.0.0:
   version "7.0.0"
-  resolved "https://registry.npmmirror.com/moddle/-/moddle-7.0.0.tgz"
+  resolved "https://registry.npmmirror.com/moddle/-/moddle-7.0.0.tgz#d543e2816a98ed83c516af817dd639b13eeca8c5"
   integrity sha512-Hpte2hfKDwoZWPvDngsEHjloPnO+sKMUVkAPc0r9PrpnVLqsyPUTV0ZQU8CAp87YmRZ9QzeQMJxdKbaP9vEIKA==
   dependencies:
     min-dash "^4.2.1"

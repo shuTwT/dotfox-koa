@@ -301,23 +301,82 @@ model GenTableColumn {
     @@map("gen_table_column")
 }
 
-model goviewProject{
-    id String @id
-    projectName String @map("project_name")
-    state String
-    createTime DateTime @default(now()) @map("create_time")
-    createBy String @default("") @map("create_by")
-    delFlag    Boolean   @default(false) @map("del_flag") //删除状态(false存在 true删除)
-    indexImage String @default("") @map("index_image")
-    remark String @default("")
+model goviewProject {
+    id          String   @id
+    projectName String   @map("project_name")
+    state       String
+    createTime  DateTime @default(now()) @map("create_time")
+    createBy    String   @default("") @map("create_by")
+    delFlag     Boolean  @default(false) @map("del_flag") //删除状态(false存在 true删除)
+    indexImage  String   @default("") @map("index_image")
+    remark      String   @default("")
+
     @@map("goview_project")
 }
 
-model goviewProjectData{
-    id String @id
-    projectId String @map("project_id")
+model goviewProjectData {
+    id         String   @id
+    projectId  String   @map("project_id")
     createTime DateTime @default(now()) @map("create_time")
-    createBy String @default("") @map("create_by")
-    content String
+    createBy   String   @default("") @map("create_by")
+    content    String
+
     @@map("goview_project_data")
+}
+
+//流程
+model flow_channel_definition {
+    id             String    @id
+    name           String?
+    version        Int?
+    key            String?
+    category       String?
+    deploymentId   String? @map("deployment_id")
+    createTime     DateTime? @map("create_time")
+    tenantId       String? @map("tenant_id")
+    resourceName   String? @map("resource_id")
+    description    String?
+    type           String?
+    implementation String?
+
+    @@map("flow_channel_definition")
+}
+
+model flow_event_definition {
+    id           String  @id
+    name         String?
+    version      Int?
+    key          String?
+    category     String?
+    deploymentId String? @map("deployment_id")
+    tenantId     String? @map("tenant_id")
+    resourceName String? @map("resource_name")
+    description  String?
+}
+
+model flw_event_deployment {
+    id                String    @id
+    name              String?
+    category          String?
+    deployTime        DateTime? @map("deployTime_id")
+    tenantId          String? @map("tenant_id")
+    parentDeployentId String? @map("parent_deployent_id")
+}
+
+model flw_event_resource {
+    id            String  @id
+    name          String?
+    deploymentId  String? @map("deployment_id")
+    resourceBytes Bytes @map("resource_bytes")
+}
+
+model sysExpression{
+    id Int @id @default(autoincrement())
+    name String?
+    expression String?
+    createTime DateTime? @default(now()) @map("create_time")
+    updateTime DateTime? @updatedAt @map("update_time")
+    createBy String?  @map("create_by")
+    updateBy String? @map("update_by")
+    @@map("sys_expression")
 }
