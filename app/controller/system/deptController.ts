@@ -37,4 +37,85 @@ export default class DeptController extends BaseController {
       data: depts,
     };
   }
+  async add(ctx: AppRouterContext, next: Koa.Next) {
+    const body = ctx.request.body;
+    const { deptName, parentId, leader, phone, email, sort, status, remark } =
+      body;
+    try {
+      const dept = await prisma.sysDept.create({
+        data: {
+          deptName,
+          parentId: Number(parentId),
+          leader,
+          phone,
+          email,
+          sort: Number(sort),
+          status,
+          remark,
+        },
+      });
+      ctx.body = {
+        code: 200,
+        msg: "success",
+        data: dept,
+      };
+    } catch (error) {
+      ctx.body = {
+        code: 500,
+        msg: String(error),
+      };
+    }
+  }
+  async edit(ctx: AppRouterContext, next: Koa.Next) {
+    const deptId = ctx.params["deptId"];
+    const body = ctx.request.body;
+    const { deptName, parentId, leader, phone, email, sort, status, remark } =
+      body;
+    try {
+      const dept = await prisma.sysDept.update({
+        where: {
+          deptId: Number(deptId),
+        },
+        data: {
+          deptName,
+          parentId: Number(parentId),
+          leader,
+          phone,
+          email,
+          sort: Number(sort),
+          status,
+          remark,
+        },
+      });
+      ctx.body = {
+        code: 200,
+        msg: "success",
+        data: dept,
+      };
+    } catch (error) {
+      ctx.body = {
+        code: 500,
+        msg: String(error),
+      };
+    }
+  }
+  async remove(ctx: AppRouterContext, next: Koa.Next){
+    const deptId = ctx.params['deptId']
+    try{
+        await prisma.sysDept.delete({
+            where:{
+                deptId: Number(deptId)
+            }
+        })
+        ctx.body={
+            code:200,
+            msg:"success"
+        }
+    }catch(error){
+        ctx.body = {
+            code: 500,
+            msg: String(error),
+        };
+    }
+  }
 }

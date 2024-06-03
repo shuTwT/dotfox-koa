@@ -22,7 +22,7 @@ model SysDept {
     leader     String? //负责人
     phone      String? //联系电话
     email      String? //邮箱
-    status     String    @default("0") @db.Char(1) //部门状态 (0正常 1禁用)
+    status     String    @default("1") @db.Char(1) //部门状态 (1正常 0禁用)
     delFlag    Boolean   @default(false) @map("del_flag") //删除状态(false存在 true删除)
     createBy   String    @default("") @map("create_by") //创建者
     createTime DateTime  @default(now()) @map("create_time") // 创建时间
@@ -38,8 +38,8 @@ model SysDept {
 model SysUser {
     userId      Int       @id @default(autoincrement()) @map("user_id") //用户ID
     deptId      Int?      @map("dept_id") //部门ID
-    userName    String    @map("user_name") //用户账号
-    nickName    String    @map("nick_name") //用户昵称
+    username    String    @map("username") //用户账号
+    nickname    String    @map("nickname") //用户昵称
     userType    String    @default("00") @map("user_type") //用户类型 (00系统用户)
     email       String    @default("") //用户邮箱
     phonenumber String    @default("") //手机号码
@@ -81,10 +81,10 @@ model SysPost {
 
 //系统角色
 model SysRole {
-    roleId            Int       @id @default(autoincrement()) @map("role_id") //角色ID
-    roleName          String    @map("role_name") //角色名称
-    roleKey           String    @map("role_key") //角色权限字符串
-    roleSort          Int       @map("role_sort") //显示顺序
+    id            Int       @id @default(autoincrement()) @map("id") //角色ID
+    name          String    @map("name") //角色名称
+    code           String    @map("key") //角色权限字符串
+    sort          Int       @map("sort") //显示顺序
     dataScope         String    @default("1") @map("data_scope") //数据范围(1全部数据2自定义数据3本部门数据4本部门及以下数据)
     menuCheckStrictly Boolean   @default(true) @map("menu_check_strictly") //菜单树选择项是否关联显示
     deptCheckStrictly Boolean   @default(true) @map("dept_check_strictly") //部门数选择项是否关联显示
@@ -406,6 +406,7 @@ model SysForm {
     formId      Int       @id @default(autoincrement())
     formName    String?
     formContent String    @db.LongText
+    category    String  
     createTime  DateTime? @default(now()) @map("create_time")
     updateTime  DateTime? @updatedAt @map("update_time")
     createBy    String?   @map("create_by")

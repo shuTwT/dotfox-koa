@@ -29,14 +29,14 @@ authRouter.post("/login", async (ctx, next) => {
   const md5password = md5.update(body.password).digest("hex");
   const user = await prisma.sysUser.findFirst({
     where: {
-      userName: body.username,
+      username: body.username,
       password: md5password,
     },
     select: {
       userId: true,
-      userName: true,
+      username: true,
       avatar:true,
-      nickName:true
+      nickname:true
     },
   });
   const userRoleIds = await prisma.sysUserRole.findMany({
@@ -49,11 +49,11 @@ authRouter.post("/login", async (ctx, next) => {
     const item = userRoleIds[key];
     const userRole = await prisma.sysRole.findFirst({
       where: {
-        roleId: item.roleId,
+        id: item.roleId,
       },
     });
     if (userRole) {
-      userRoles.push(userRole.roleKey);
+      userRoles.push(userRole.code);
     }
   }
 
@@ -74,7 +74,7 @@ authRouter.post("/login", async (ctx, next) => {
     {
       data: "foobar",
       userId: user.userId,
-      username: user.userName,
+      username: user.username,
       uuid: uuid,
       ip: ip,
       address: address,
@@ -94,7 +94,7 @@ authRouter.post("/login", async (ctx, next) => {
     {
       data: "foobar",
       userId: user.userId,
-      username: user.userName,
+      username: user.username,
       uuid: uuid,
     },
     "shhhh",
@@ -108,8 +108,8 @@ authRouter.post("/login", async (ctx, next) => {
     msg: "success",
     data: {
       avatar: user.avatar,
-      username: user.userName,
-      nickname: user.nickName,
+      username: user.username,
+      nickname: user.nickname,
       permissions: ["*:*:*"],
       roles: userRoles,
       accessToken: accessToken,
@@ -161,11 +161,11 @@ authRouter.post("refresh-token", async (ctx, next) => {
 
     const user = await prisma.sysUser.findFirst({
       where: {
-        userName: decodeToken.username,
+        username: decodeToken.username,
       },
       select: {
         userId: true,
-        userName: true,
+        username: true,
       },
     });
     const userRoleIds = await prisma.sysUserRole.findMany({
@@ -178,11 +178,11 @@ authRouter.post("refresh-token", async (ctx, next) => {
       const item = userRoleIds[key];
       const userRole = await prisma.sysRole.findFirst({
         where: {
-          roleId: item.roleId,
+          id: item.roleId,
         },
       });
       if (userRole) {
-        userRoles.push(userRole.roleKey);
+        userRoles.push(userRole.code);
       }
     }
 
@@ -280,11 +280,11 @@ authRouter.get("/getInfo", async (ctx, next) => {
     const item = userRoleIds[key];
     const userRole = await prisma.sysRole.findFirst({
       where: {
-        roleId: item.roleId,
+        id: item.roleId,
       },
     });
     if (userRole) {
-      userRoles.push(userRole.roleKey);
+      userRoles.push(userRole.code);
     }
   }
   ctx.body = {

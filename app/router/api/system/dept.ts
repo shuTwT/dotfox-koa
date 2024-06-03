@@ -7,5 +7,8 @@ const deptController = new DeptController()
 
 //部门管理
 deptRouter.get("/",deptController.list);
+deptRouter.post("/",deptController.add);
+deptRouter.put("/:deptId",deptController.edit);
+deptRouter.delete("/:deptId",deptController.remove);
 
 export { deptRouter };

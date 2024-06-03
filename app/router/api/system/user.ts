@@ -20,7 +20,7 @@ userRouter.get("/", async (ctx, next) => {
     const [list, count] = await prisma.$transaction([
       prisma.sysUser.findMany({
         where: {
-          userName: username,
+          username: username,
           status: status,
           phonenumber: phone,
           deptId: deptId,
@@ -39,7 +39,7 @@ userRouter.get("/", async (ctx, next) => {
       }),
       prisma.sysUser.count({
         where: {
-          userName: username,
+          username: username,
           status: status,
           phonenumber: phone,
           deptId: deptId,
@@ -72,8 +72,8 @@ userRouter.post("/", async (ctx, next) => {
   try {
     await prisma.sysUser.create({
       data: {
-        userName: body.userName,
-        nickName: body.nickName,
+        username: body.username,
+        nickname: body.nickname,
         email: body.email,
         deptId: Number(body.parentId),
         password: body.password,
@@ -223,8 +223,8 @@ userRouter.put("/:userId", async (ctx, next) => {
         userId: Number(userId),
       },
       data: {
-        userName: body.userName,
-        nickName: body.nickName,
+        username: body.userName,
+        nickname: body.nickName,
         email: body.email,
         deptId: Number(body.parentId),
         password: body.password,

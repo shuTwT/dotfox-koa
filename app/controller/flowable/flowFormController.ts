@@ -62,7 +62,8 @@ export default class FlowFormController extends BaseController {
         await prisma.sysForm.create({
             data:{
                 formName:body.formName,
-                formContent:body.formContent,
+                formContent:"",
+                category:body.category,
                 remark:body.remark
             }
         })
@@ -91,6 +92,7 @@ export default class FlowFormController extends BaseController {
             data:{
                 formName:body.formName,
                 formContent:body.formContent,
+                category:body.category,
                 remark:body.remark
             }
         })
