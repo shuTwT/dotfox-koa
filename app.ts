@@ -62,7 +62,10 @@ app.use(jwtMiddleware([
     "/",
     "/api/login",
     "/api/swagger",
-    "/api/system/notice/msg"
+    "/api/system/notice/msg",
+    "/api/goview/sys/getOssInfo",
+    "/api/goview/sys/login",
+    "/api/goview/project/getData"
   ])
 )
 // app.use(koaStatic(path.resolve(process.cwd(), "static")));

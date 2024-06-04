@@ -10,8 +10,10 @@ interface AjaxFailedResponse {
   data?: any;
 }
 export class BaseController {
+  constructor() {}
   protected ajaxSuccess(data: undefined): AjaxSuccessResponse;
   protected ajaxSuccess(data: object): AjaxSuccessResponse;
+  protected ajaxSuccess(msg: string): AjaxSuccessResponse;
   protected ajaxSuccess(msg: string, data: object): AjaxSuccessResponse;
   protected ajaxSuccess(param1?: any, param2?: any): AjaxSuccessResponse {
     if (typeof param1 === "undefined") {
@@ -40,7 +42,7 @@ export class BaseController {
       };
     }
   }
-  protected ajaxFailed(msg: string): AjaxFailedResponse {
+  ajaxFailed(msg: string): AjaxFailedResponse {
     return {
       code: 500,
       msg: msg,

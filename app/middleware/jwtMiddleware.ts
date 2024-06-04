@@ -34,7 +34,6 @@ export default function (whiteList: string[] = [], callback?: () => void) {
 
     const token =
       ctx.request.header["authorization"] || "Bearer "+authorizedToken.accessToken;
-      
     if (token) {
       try {
         const tokenItem = token.split("Bearer ")[1];

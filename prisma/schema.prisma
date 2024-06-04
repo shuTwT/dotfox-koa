@@ -304,14 +304,14 @@ model GenTableColumn {
 model GoviewProject {
     id          String   @id  @default(uuid())
     projectName String   @map("project_name")
-    state       String
+    state       Int @default(-1)
     createTime  DateTime @default(now()) @map("create_time")
     createBy    String   @default("") @map("create_by")
-    delFlag     Boolean  @default(false) @map("del_flag") //删除状态(false存在 true删除)
-    indexImage  String   @default("") @map("index_image")
+    isDelete     Int  @default(-1) @map("is_delete") //删除状态(false存在 true删除)
+    indexImage  String?   @default("") @map("index_image")
     updateTime  DateTime @updatedAt @map("update_time")
     updateBy    String   @default("") @map("update_by")
-    remark      String   @default("")
+    remark      String?   @default("")
 
     @@map("goview_project")
 }

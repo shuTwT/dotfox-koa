@@ -21,30 +21,27 @@ export default class GoviewProjectController extends BaseController {
     ]);
     ctx.body = {
       code: 200,
+      count,
       msg: "success",
-      data: {
-        records,
-        total: count,
-        pageSize,
-        pageNum,
-      },
+      data: records,
     };
   }
   /**
    * 新增
    */
-  async add(ctx: AppRouterContext, next: Koa.Next) {
+  async create(ctx: AppRouterContext, next: Koa.Next) {
     const body = ctx.request.body;
     const loginUser = ctx.getLoginUser();
-    await prisma.goviewProject.create({
+    const goviewProject=await prisma.goviewProject.create({
       data: {
         id: body.id,
         projectName: body.projectName,
-        state: body.state,
+        indexImage: body.indexImage,
         createBy: loginUser.getUserName(),
-        remark: body.remark,
+        remark: body.remarks,
       },
     });
+    ctx.body=super.ajaxSuccess(goviewProject)
   }
   /**
    * 修改
@@ -59,6 +56,7 @@ export default class GoviewProjectController extends BaseController {
       data: {
         projectName: body.projectName,
         state: body.state,
+        indexImage: body.indexImage,
         updateBy: loginUser.getUserName(),
         remark: body.remark,
       },
@@ -110,14 +108,14 @@ export default class GoviewProjectController extends BaseController {
    */
   async publish(ctx: AppRouterContext, next: Koa.Next) {
     const body = ctx.request.body;
-    if (body.state == "0" || body.state == "1") {
+    if (body.state === "-1" || body.state === "1") {
       const loginUser = ctx.getLoginUser();
       await prisma.goviewProject.update({
         where: {
           id: body.id,
         },
         data: {
-          state: body.state,
+          state: Number(body.state),
           updateBy: loginUser.getUserName(),
         },
       });
@@ -134,27 +132,27 @@ export default class GoviewProjectController extends BaseController {
    */
   async getData(ctx: AppRouterContext, next: Koa.Next) {
     const query = ctx.request.query;
-    const id = parseQuery(query, "id");
+    const projectId = parseQuery(query, "projectId");
     const goviewProject = await prisma.goviewProject.findFirst({
       where: {
-        id: id,
+        id: projectId,
       },
     });
     const goviewProjectData = await prisma.goviewProjectData.findFirst({
       where: {
-        projectId: id,
+        projectId: projectId,
       },
       orderBy: {
         version: "desc",
       },
     });
-    if (goviewProjectData !== null) {
-      ctx.body = this.ajaxSuccess({
-        project: goviewProject,
+    if (goviewProject !==null &&goviewProjectData !== null) {
+      ctx.body = super.ajaxSuccess({
+        ...goviewProject,
         content: goviewProjectData.content,
       });
     } else {
-      ctx.body = this.ajaxFailed("项目数据不存在");
+      ctx.body = super.ajaxSuccess("项目数据不存在");
     }
   }
   /**
@@ -169,7 +167,7 @@ export default class GoviewProjectController extends BaseController {
       },
     });
     if (goviewProject === null) {
-      this.ajaxFailed("项目不存在");
+      super.ajaxFailed("项目不存在");
     } else {
       const goviewProjectData = await prisma.goviewProjectData.findFirst({
         where: {
@@ -180,7 +178,7 @@ export default class GoviewProjectController extends BaseController {
         },
       });
       if (goviewProjectData === null) {
-        this.ajaxFailed("项目数据不存在");
+        super.ajaxFailed("项目数据不存在");
       } else {
         await prisma.goviewProjectData.create({
           data: {
@@ -189,6 +187,7 @@ export default class GoviewProjectController extends BaseController {
             content: body.content,
           },
         });
+        super.ajaxSuccess("数据保存成功")
       }
     }
   }
@@ -196,21 +195,21 @@ export default class GoviewProjectController extends BaseController {
    * 上传文件
    */
   async upload(ctx: AppRouterContext, next: Koa.Next) {
-    const files = ctx.request.files
-    if(ctx.request.files){
-        const {file} = ctx.request.files
-        if(file){
-            if(!Array.isArray(file)){
-                this.ajaxSuccess("上传成功",{
-                    filepath:file.filepath,
-                    filename:file.newFilename,
-                    originalfilename:file.originalFilename,
-                    url:'/upload/'+file.newFilename
-                })
-            }
+    const files = ctx.request.files;
+    if (ctx.request.files) {
+      const { file } = ctx.request.files;
+      if (file) {
+        if (!Array.isArray(file)) {
+          this.ajaxSuccess("上传成功", {
+            filepath: file.filepath,
+            filename: file.newFilename,
+            originalfilename: file.originalFilename,
+            url: "/upload/" + file.newFilename,
+          });
         }
-    }else{
-        this.ajaxFailed("上传失败")
+      }
+    } else {
+      this.ajaxFailed("上传失败");
     }
   }
 }
