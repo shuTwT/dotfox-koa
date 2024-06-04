@@ -1,5 +1,4 @@
 import type { Context, Next } from "koa";
-import UAParser from "ua-parser-js";
 
 /**
  * 演示模式 禁止所有非get请求

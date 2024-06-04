@@ -1,8 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import dayjs from "dayjs";
-import {  seedMenus } from "./seedData/menus";
+import { menus } from "./seedData/menus";
 import { roleMenus } from "./seedData/roleMenus";
-import { seedConfigs } from "./seedData/configs";
+import { configs } from "./seedData/configs";
+import {dictTypes} from "./seedData/dictTypes";
 const prisma = new PrismaClient();
 async function main() {
     const now = dayjs()
@@ -208,7 +209,6 @@ async function main() {
       createTime: now.toDate(),
     },
   });
-  const menus = seedMenus(now.toDate())
   for (const key in menus) {
     const item = menus[key];
     await prisma.sysMenu.upsert({
@@ -279,7 +279,7 @@ async function main() {
       });
     });
   }
-  const configs = seedConfigs(now.toDate());
+
   for (const key in configs) {
     await prisma.sysConfig.upsert({
       where: {
@@ -295,6 +295,26 @@ async function main() {
         configName: configs[key].configName,
         configType: configs[key].configType,
         configValue: configs[key].configValue,
+      },
+    });
+  }
+
+  for(const key in dictTypes){
+    await prisma.sysDictType.upsert({
+      where: {
+        dictId: dictTypes[key].dictId,
+      },
+      update: {
+        dictName: dictTypes[key].dictName,
+        dictType: dictTypes[key].dictType,
+        status: dictTypes[key].status,
+        remark: dictTypes[key].remark,
+      },
+      create: {
+        dictName: dictTypes[key].dictName,
+        dictType: dictTypes[key].dictType,
+        status: dictTypes[key].status,
+        remark: dictTypes[key].remark,
       },
     });
   }

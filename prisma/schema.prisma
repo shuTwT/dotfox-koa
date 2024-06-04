@@ -81,10 +81,10 @@ model SysPost {
 
 //系统角色
 model SysRole {
-    id            Int       @id @default(autoincrement()) @map("id") //角色ID
-    name          String    @map("name") //角色名称
-    code           String    @map("key") //角色权限字符串
-    sort          Int       @map("sort") //显示顺序
+    id                Int       @id @default(autoincrement()) @map("id") //角色ID
+    name              String    @map("name") //角色名称
+    code              String    @map("key") //角色权限字符串
+    sort              Int       @map("sort") //显示顺序
     dataScope         String    @default("1") @map("data_scope") //数据范围(1全部数据2自定义数据3本部门数据4本部门及以下数据)
     menuCheckStrictly Boolean   @default(true) @map("menu_check_strictly") //菜单树选择项是否关联显示
     deptCheckStrictly Boolean   @default(true) @map("dept_check_strictly") //部门数选择项是否关联显示
@@ -105,9 +105,9 @@ model SysMenu {
     parentId        Int       @default(0) @map("parent_id") //父菜单ID
     menuType        Int       @default(0) @map("menu_type") //菜单类型(0菜单1iframe2外链3按钮)
     title           String    @default("") //标题
-    menuName        String    @map("menu_name") //菜单名称
+    menuName        String    @default("") @map("menu_name") //菜单名称
     path            String    @default("") //路由地址
-    component       String //组件路径
+    component       String? //组件路径
     rank            Int?      @default(0) //显示顺序
     redirect        String    @default("") //重定向
     icon            String    @default("") //菜单图标
@@ -302,25 +302,29 @@ model GenTableColumn {
 }
 
 model GoviewProject {
-    id          String   @id
+    id          String   @id  @default(uuid())
     projectName String   @map("project_name")
     state       String
     createTime  DateTime @default(now()) @map("create_time")
     createBy    String   @default("") @map("create_by")
     delFlag     Boolean  @default(false) @map("del_flag") //删除状态(false存在 true删除)
     indexImage  String   @default("") @map("index_image")
+    updateTime  DateTime @updatedAt @map("update_time")
+    updateBy    String   @default("") @map("update_by")
     remark      String   @default("")
 
     @@map("goview_project")
 }
 
 model goviewProjectData {
-    id         String   @id
+    id         String   @id @default(uuid())
     projectId  String   @map("project_id")
+    version    Int  @default(1)//版本
     createTime DateTime @default(now()) @map("create_time")
     createBy   String   @default("") @map("create_by")
     content    String
 
+    @@unique([projectId, version])
     @@map("goview_project_data")
 }
 
@@ -406,7 +410,7 @@ model SysForm {
     formId      Int       @id @default(autoincrement())
     formName    String?
     formContent String    @db.LongText
-    category    String  
+    category    String
     createTime  DateTime? @default(now()) @map("create_time")
     updateTime  DateTime? @updatedAt @map("update_time")
     createBy    String?   @map("create_by")
@@ -417,31 +421,33 @@ model SysForm {
     @@map("sys_form")
 }
 
+// 流程定义表
 model act_re_procdef {
     id                   String              @id
-    rev                  Int?
-    category             String?
-    name                 String?
-    key                  String
-    version              Int
-    deploymentId         String?             @map("deployment_id")
-    resourceName         String?             @map("resource_name")
-    dgrmResourceName     String?             @map("dgrm_resource_name")
-    description          String?
-    hasStartFormKey      String?             @map("has_start_form_key")
-    hasGraphicalNotation Int?                @map("has_graphical_notation")
-    suspensionState      Int?                @map("suspension_state")
-    tenantId             String              @default("") @map("tenant_id")
-    englishVersion       String?             @map("english_version")
-    derivedFrom          String?             @map("derived_from")
-    derivedFromRoot      String?             @map("derived_form_root")
-    derivedVersion       Int                 @default(0) @map("derived_version")
+    rev                  Int? //数据版本号
+    category             String? //流程定义分类
+    name                 String? //流程定义名称
+    key                  String //流程定义key
+    version              Int //版本
+    deploymentId         String?             @map("deployment_id") //部署ID
+    resourceName         String?             @map("resource_name") //bpmn文件名称
+    dgrmResourceName     String?             @map("dgrm_resource_name") //流程定义对应的流程图资源名称
+    description          String? //说明
+    hasStartFormKey      String?             @map("has_start_form_key") //是否存在开始节点
+    hasGraphicalNotation Int?                @map("has_graphical_notation") //是否有流程图
+    suspensionState      Int?                @map("suspension_state") //流程定义状态
+    tenantId             String              @default("") @map("tenant_id") //流程定义所属租户
+    englishVersion       String?             @map("english_version") //英文版本
+    derivedFrom          String?             @map("derived_from") //派生来源
+    derivedFromRoot      String?             @map("derived_form_root") //派生来源根
+    derivedVersion       Int                 @default(0) @map("derived_version") //派生版本
     act_re_deployments   act_re_deployment[]
 
     @@unique([key, version, derivedVersion, tenantId])
     @@map("act_re_procdef")
 }
 
+// 部署单元信息
 model act_re_deployment {
     id                 String          @id
     name               String?
@@ -454,6 +460,245 @@ model act_re_deployment {
     parentDeploymentId String?         @map("parent_deployment_id")
     act_re_procdef     act_re_procdef? @relation(fields: [id], references: [id])
 
-
     @@map("act_re_deployment")
+}
+
+// 历史的流程实例
+model act_hi_actinst {
+    id         String   @id
+    procInstId String   @map("proc_inst_id")
+    procDefId  String   @map("proc_def_id")
+    actId      String   @map("act_id")
+    actName    String   @map("act_name")
+    actType    String   @map("act_type")
+    assignee   String?
+    startTime  DateTime @map("start_time")
+}
+
+// 历史的流程附件
+model act_hi_attachment {
+    id String @id
+}
+
+// 历史的说明性信息
+model act_hi_comment {
+    id String @id
+}
+
+// 历史的流程运行中的细节信息
+model act_hi_detail {
+    id_           String  @id
+    rev_          Int? //版本
+    type_         String? //类型
+    proc_inst_id_ String? //流程实例ID
+    execution_id_ String? //执行ID
+    task_id_      String? //任务ID
+    act_inst_id_  String? //节点实例ID
+    name_         String? //名称
+    var_type_     String? //参数类型
+    bytearray_id_ String? //字节表ID
+    double_       Float? //存储变量类型为 Double
+    long_         Int? //存储变量类型为 Long
+    text_         String? //存储变量类型为 String
+    text2_        String? //文本2
+}
+
+// 历史的流程运行中的用户关系
+model act_hi_identitylink {
+    id String @id
+}
+
+// 历史的流程实例
+model act_hi_procinst {
+    id_                 String    @id
+    proc_inst_id_       String //流程实例ID
+    business_key_       String? //业务主键
+    proc_def_id_        String? //属性ID
+    start_time_         DateTime? //开始时间
+    end_time_           DateTime? //结束时间
+    duration_           Int? //耗时
+    start_user_id_      String? //起始人
+    start_act_id_       String? //起始节点ID
+    end_act_id_         String? //结束节点ID
+    super_proc_inst_id_ String? //父流程实例ID
+    delete_reason_      String? //删除原因
+    tenant_id_          String? //租户ID
+    name_               String? //流程名称
+}
+
+// 历史的任务实例
+model act_hi_taskinst {
+    id_              String    @id
+    proc_def_id_     String? //流程定义ID
+    task_def_key_    String? //任务定义ID
+    proc_inst_id_id_ String? //流程实例ID
+    execution_id_    String? //执行实例ID
+    parent_task_id_  String? //父任务ID
+    name_            String? //任务名称
+    description_     String? //描述
+    owner_           String? //实际签收人 任务的拥有者
+    assignee_        String? //签收人 被指派执行该任务的人
+    start_time_      DateTime? //开始时间
+    claim_time_      DateTime? //提醒时间
+    end_time_        DateTime? //结束时间
+    duration_        Int? //耗时
+    delete_reason_   String? //删除原因
+    priority_        Int? //优先级
+    due_date_        DateTime? //到期时间
+    form_key_        String? //节点定义的表单KEY
+    category_        String? //分类
+    tenant_id_       String? //租户ID
+}
+
+// 历史的流程运行中的变量信息
+model act_hi_varinst {
+    id String @id
+}
+
+// 正在运行的任务表
+model act_ru_deadletter_job {
+    id_                  String    @id
+    rev_                 Int? //数据版本
+    type_                String? //类型
+    exclusive_           Int? //是否排它
+    execution_id_        String? //执行实例ID
+    process_instance_id_ String? //流程实例ID
+    proc_def_id_         String? //流程定义ID
+    retries_             Int? //重试次数
+    exception_stack_id_  String? //异常堆栈ID
+    exception_msg_       String? //异常信息
+    duedate_             DateTime? //到期时间
+    repeat_              String? //重复
+    handler_type_        String? //处理类型
+    handler_cfg_         String? //处理配置
+    tenant_id_           String? //租户ID
+}
+
+// 事件描述表
+model act_ru_event_subscr {
+    id_            String   @id
+    rev_           Int? //数据版本
+    event_type_    String? //事件类型
+    event_name_    String? //事件名称
+    execution_id_  String? //执行实例ID
+    proc_inst_id_  String? //流程定义ID
+    activity_id_   String? //活动ID
+    configuration_ String? //事件的配置属性
+    created_       DateTime @default(now()) //创建时间
+    proc_def_id_   String? //属性ID
+    tenant_id_     String? //租户ID
+}
+
+// 运行时流程执行实例
+model act_ru_execution {
+    id String @id
+}
+
+// 历史作业表
+model act_ru_history_job {
+    id String @id
+}
+
+// 运行时用户关系信息
+model act_ru_identitylink {
+    id String @id
+}
+
+// 运行时作业表
+model act_ru_job {
+    id_                  String    @id
+    rev_                 Int? //数据版本
+    type_                String? //类型
+    lock_exp_time_       DateTime? //锁定释放时间
+    lock_owner_          String? //挂起者
+    exclusive_           Int? //是否排它
+    execution_id_        String? //执行实例ID
+    process_instance_id_ String? //流程实例ID
+    proc_def_id_         String? //流程定义ID
+    retries_             Int? //重试次数
+    exception_stack_id_  String? //异常堆栈ID
+    exception_msg_       String? //异常信息
+    duedate_             DateTime? //到期时间
+    repeat_              String? //重复
+    handler_type_        String? //处理类型
+    handler_cfg_         String? //处理配置
+    tenant_id_           String? //租户ID
+}
+
+// 暂停作业表
+model act_ru_suspended_job {
+    id_                  String    @id
+    rev_                 Int? //数据版本
+    type_                String? //类型
+    exclusive_           Int? //是否排它
+    execution_id_        String? //执行实例ID
+    process_instance_id_ String? //流程实例ID
+    proc_def_id_         String? //流程定义ID
+    retries_             Int? //重试次数
+    exception_stack_id_  String? //异常堆栈ID
+    exception_msg_       String? //异常信息
+    duedate_             DateTime? //到期时间
+    repeat_              String? //重复
+    handler_type_        String? //处理类型
+    handler_cfg_         String? //处理配置
+    tenant_id_           String? //租户ID
+}
+
+// 运行时任务表
+model act_ru_task {
+    id_              String    @id
+    rev_             Int? //数据版本
+    exection_id_     String? //任务所在的执行流ID
+    proc_inst_id_    String? //流程实例ID
+    proc_def_id_     String? //流程定义数据ID
+    name_            String? //任务名称
+    parent_task_id_  String? //父任务ID
+    description_     String? //说明
+    task_def_key_    String? //任务定义的ID值
+    owner_           String? //任务拥有人
+    assignee_        String? //被委派执行任务的人
+    delegation_      String?
+    priority_        Int?
+    create_time_     DateTime  @default(now())
+    due_date_        DateTime?
+    category_        String?
+    suspension_state Int? //是否挂起1：激活2：挂起
+    tenant_id_       String?
+    form_key_        String?
+    claim_time_      DateTime?
+}
+
+// 定时作业表
+model act_ru_timer_job {
+    id_                  String    @id
+    rev_                 Int? //数据版本
+    type_                String? //类型
+    exclusive_           Int? //是否排它
+    execution_id_        String? //执行实例ID
+    process_instance_id_ String? //流程实例ID
+    proc_def_id_         String? //流程定义ID
+    retries_             Int? //重试次数
+    exception_stack_id_  String? //异常堆栈ID
+    exception_msg_       String? //异常信息
+    duedate_             DateTime? //到期时间
+    repeat_              String? //重复
+    handler_type_        String? //处理类型
+    handler_cfg_         String? //处理配置
+    tenant_id_           String? //租户ID
+}
+
+// 运行时变量表
+model act_ru_variable {
+    id_           String  @id
+    rev_          Int? //数据版本
+    type_         String? //参数类型，可以是基本的类型，也可以是用户自行拓展
+    name_         String? //参数名称
+    execution_id_ String? //参数执行ID
+    proc_inst_id_ String? //流程实例ID
+    task_id_      String? //任务ID
+    bytearray_id_ String? //资源ID
+    double_       Int? //参数为double,则保存在该字段
+    long_         Int? //参数为long,则保存在该字段
+    text_         String? //用户保存文本类型的参数值
+    text2_        String? //用户保存文本类型的参数值
 }

@@ -19,6 +19,7 @@ import jwtMiddleware from "app/middleware/jwtMiddleware";
 import uaMiddleware from "app/middleware/uaMiddleware";
 import {koaBody} from 'koa-body'
 import demoMidleware from "app/middleware/demoMidleware";
+import errorMidleware from 'app/middleware/errorMidleware';
 
 dotenv.config({
     path:".env"
@@ -55,6 +56,7 @@ app.use(koaBody({
   }
 }))
 app.use(koaLogger());
+app.use(errorMidleware())
 app.use(uaMiddleware())
 app.use(jwtMiddleware([
     "/",

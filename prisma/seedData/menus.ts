@@ -1,5 +1,6 @@
-export function seedMenus(datetime: Date) {
-  const menus = [
+import { SysMenu } from "@prisma/client";
+
+export  const menus = [
     // 系统管理
     {
       parentId: 0,
@@ -23,8 +24,6 @@ export function seedMenus(datetime: Date) {
       hiddenTag: false,
       showLink: true,
       showParent: false,
-      createBy: "admin",
-      createTime: datetime,
     },
     {
       parentId: 300,
@@ -48,8 +47,6 @@ export function seedMenus(datetime: Date) {
       hiddenTag: false,
       showLink: true,
       showParent: false,
-      createBy: "admin",
-      createTime: datetime,
     },
     {
       parentId: 300,
@@ -73,8 +70,6 @@ export function seedMenus(datetime: Date) {
       hiddenTag: false,
       showLink: true,
       showParent: false,
-      createBy: "admin",
-      createTime: datetime,
     },
     {
       parentId: 300,
@@ -98,8 +93,6 @@ export function seedMenus(datetime: Date) {
       hiddenTag: false,
       showLink: true,
       showParent: false,
-      createBy: "admin",
-      createTime: datetime,
     },
     {
       parentId: 300,
@@ -123,8 +116,6 @@ export function seedMenus(datetime: Date) {
       hiddenTag: false,
       showLink: true,
       showParent: false,
-      createBy: "admin",
-      createTime: datetime,
     },
     // 系统监控
     {
@@ -149,8 +140,6 @@ export function seedMenus(datetime: Date) {
       hiddenTag: false,
       showLink: true,
       showParent: false,
-      createBy: "admin",
-      createTime: datetime,
     },
     {
       parentId: 400,
@@ -174,8 +163,6 @@ export function seedMenus(datetime: Date) {
       hiddenTag: false,
       showLink: true,
       showParent: false,
-      createBy: "admin",
-      createTime: datetime,
     },
     {
       parentId: 400,
@@ -199,8 +186,6 @@ export function seedMenus(datetime: Date) {
       hiddenTag: false,
       showLink: true,
       showParent: false,
-      createBy: "admin",
-      createTime: datetime,
     },
     {
       parentId: 400,
@@ -224,8 +209,6 @@ export function seedMenus(datetime: Date) {
       hiddenTag: false,
       showLink: true,
       showParent: false,
-      createBy: "admin",
-      createTime: datetime,
     },
     {
       parentId: 400,
@@ -249,8 +232,6 @@ export function seedMenus(datetime: Date) {
       hiddenTag: false,
       showLink: true,
       showParent: false,
-      createBy: "admin",
-      createTime: datetime,
     },
     {
       menuId: 405,
@@ -275,8 +256,6 @@ export function seedMenus(datetime: Date) {
       showLink: true,
       showParent: false,
       status: "1",
-      createBy: "admin",
-      createTime: datetime,
     },
     {
       menuId: 406,
@@ -301,8 +280,6 @@ export function seedMenus(datetime: Date) {
       showLink: true,
       showParent: false,
       status: "1",
-      createBy: "admin",
-      createTime: datetime,
     },
     {
       menuId: 407,
@@ -327,8 +304,6 @@ export function seedMenus(datetime: Date) {
       showLink: false,
       showParent: false,
       status: "1",
-      createBy: "admin",
-      createTime: datetime,
     },
     {
       menuId: 408,
@@ -353,8 +328,7 @@ export function seedMenus(datetime: Date) {
       showLink: true,
       showParent: false,
       status: "1",
-      createBy: "admin",
-      createTime: datetime,
+
     },
     {
       menuId: 409,
@@ -379,8 +353,6 @@ export function seedMenus(datetime: Date) {
       showLink: true,
       showParent: false,
       status: "1",
-      createBy: "admin",
-      createTime: datetime,
     },
     {
       menuId: 410,
@@ -405,8 +377,6 @@ export function seedMenus(datetime: Date) {
       showLink: true,
       showParent: false,
       status: "1",
-      createBy: "admin",
-      createTime: datetime,
     },
     {
       menuId: 411,
@@ -431,8 +401,6 @@ export function seedMenus(datetime: Date) {
       showLink: true,
       showParent: false,
       status: "1",
-      createBy: "admin",
-      createTime: datetime,
     },
     {
       menuId: 412,
@@ -457,9 +425,6 @@ export function seedMenus(datetime: Date) {
       showLink: true,
       showParent: false,
       status: "1",
-      createBy: "admin",
-      createTime: datetime,
     },
-  ];
-  return menus;
-}
+  ] as Partial<SysMenu>[];
+
