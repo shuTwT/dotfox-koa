@@ -11,7 +11,7 @@ interface AjaxFailedResponse {
 }
 export class BaseController {
   constructor() {}
-  protected ajaxSuccess(data: undefined): AjaxSuccessResponse;
+  protected ajaxSuccess(): AjaxSuccessResponse;
   protected ajaxSuccess(data: object): AjaxSuccessResponse;
   protected ajaxSuccess(msg: string): AjaxSuccessResponse;
   protected ajaxSuccess(msg: string, data: object): AjaxSuccessResponse;

@@ -32,7 +32,7 @@ export default class GoviewProjectController extends BaseController {
   async create(ctx: AppRouterContext, next: Koa.Next) {
     const body = ctx.request.body;
     const loginUser = ctx.getLoginUser();
-    const goviewProject=await prisma.goviewProject.create({
+    const goviewProject = await prisma.goviewProject.create({
       data: {
         id: body.id,
         projectName: body.projectName,
@@ -41,7 +41,7 @@ export default class GoviewProjectController extends BaseController {
         remark: body.remarks,
       },
     });
-    ctx.body=super.ajaxSuccess(goviewProject)
+    ctx.body = super.ajaxSuccess(goviewProject);
   }
   /**
    * 修改
@@ -108,7 +108,7 @@ export default class GoviewProjectController extends BaseController {
    */
   async publish(ctx: AppRouterContext, next: Koa.Next) {
     const body = ctx.request.body;
-    if (body.state === "-1" || body.state === "1") {
+    if (body.state == "-1" || body.state == "1") {
       const loginUser = ctx.getLoginUser();
       await prisma.goviewProject.update({
         where: {
@@ -119,12 +119,10 @@ export default class GoviewProjectController extends BaseController {
           updateBy: loginUser.getUserName(),
         },
       });
-      ctx.body = {
-        code: 200,
-        msg: "success",
-      };
+
+      ctx.body = super.ajaxSuccess();
     } else {
-      this.ajaxFailed("非法参数");
+      ctx.body = super.ajaxFailed("非法参数");
     }
   }
   /**
@@ -146,7 +144,7 @@ export default class GoviewProjectController extends BaseController {
         version: "desc",
       },
     });
-    if (goviewProject !==null &&goviewProjectData !== null) {
+    if (goviewProject !== null && goviewProjectData !== null) {
       ctx.body = super.ajaxSuccess({
         ...goviewProject,
         content: goviewProjectData.content,
@@ -187,7 +185,7 @@ export default class GoviewProjectController extends BaseController {
             content: body.content,
           },
         });
-        super.ajaxSuccess("数据保存成功")
+        super.ajaxSuccess("数据保存成功");
       }
     }
   }
