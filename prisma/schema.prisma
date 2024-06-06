@@ -169,7 +169,7 @@ model SysDictType {
     dictId     Int       @id @default(autoincrement()) @map("dict_id") //字典主键
     dictName   String    @default("") @map("dict_name") //字典名称
     dictType   String    @unique @default("") @map("dict_type") //字典类型
-    status     String    @default("0") @db.Char(1) //状态(0正常,1停用)
+    status     String    @default("1") @db.Char(1) //状态(0停用,1正常)
     createBy   String    @default("") @map("create_by") //创建者
     createTime DateTime  @default(now()) @map("create_time") // 创建时间
     updateBy   String    @default("") @map("update_by") //更新者
@@ -186,7 +186,7 @@ model SysDictData {
     dictLabel  String    @default("") @map("dict_label") //字典标签
     dictValue  String    @default("") @map("dict_value") //字典键值
     dictType   String    @default("") @map("dict_type") //字典类型
-    status     String    @default("0") @db.Char(1) //状态(0正常,1停用)
+    status     String    @default("1") @db.Char(1) //状态(0停用,1正常)
     createBy   String    @default("") @map("create_by") //创建者
     createTime DateTime  @default(now()) @map("create_time") // 创建时间
     updateBy   String    @default("") @map("update_by") //更新者
@@ -242,6 +242,19 @@ model SysNotice {
     remark        String?   @db.VarChar(500) //备注
 
     @@map("sys_notice")
+}
+
+model SysFile{
+    id String @id @default(uuid())
+    fileName String @default("") @map("file_name")
+    fileSize Int @default(0) @map("file_size")
+    fileSuffix String @default("") @map("file_suffix")
+    virtualKey String @default("") @map("virtual_key")//虚拟路径
+    relativePath String @default("") @map("relative_path")//相对路径
+    absolutePath String @default("") @map("absolute_path")//绝对路径
+    createTime DateTime @default(now()) @map("create_time")
+
+    @@map("sys_file")
 }
 
 //代码生成业务表
@@ -322,7 +335,7 @@ model goviewProjectData {
     version    Int  @default(1)//版本
     createTime DateTime @default(now()) @map("create_time")
     createBy   String   @default("") @map("create_by")
-    content    String
+    content    String @db.Text
 
     @@unique([projectId, version])
     @@map("goview_project_data")

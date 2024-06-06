@@ -4,6 +4,7 @@ import { menus } from "./seedData/menus";
 import { roleMenus } from "./seedData/roleMenus";
 import { configs } from "./seedData/configs";
 import {dictTypes} from "./seedData/dictTypes";
+import { dictDatas } from "./seedData/dictDatas";
 const prisma = new PrismaClient();
 async function main() {
     const now = dayjs()
@@ -315,6 +316,27 @@ async function main() {
         dictType: dictTypes[key].dictType,
         status: dictTypes[key].status,
         remark: dictTypes[key].remark,
+      },
+    });
+  }
+  for(const key in dictDatas){
+    await prisma.sysDictData.upsert({
+      where: {
+        dictCode: dictDatas[key].dictCode,
+      },
+      update: {
+        dictLabel: dictDatas[key].dictLabel,
+        dictType: dictDatas[key].dictType,
+        dictValue: dictDatas[key].dictValue,
+        status: dictDatas[key].status,
+        remark: dictDatas[key].remark,
+      },
+      create: {
+        dictLabel: dictDatas[key].dictLabel,
+        dictType: dictDatas[key].dictType,
+        dictValue: dictDatas[key].dictValue,
+        status: dictDatas[key].status,
+        remark: dictDatas[key].remark,
       },
     });
   }

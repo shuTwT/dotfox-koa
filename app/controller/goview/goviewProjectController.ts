@@ -10,14 +10,26 @@ export default class GoviewProjectController extends BaseController {
    */
   async list(ctx: AppRouterContext, next: Koa.Next) {
     const query = ctx.request.query;
+    const projectName= parseQuery(query, "name");
     const pageSize = str2num(parseQuery(query, "pageSize"), 10);
     const pageNum = str2num(parseQuery(query, "pageNum"), 1);
     const [records, count] = await prisma.$transaction([
       prisma.goviewProject.findMany({
         skip: (pageNum - 1) * pageSize,
         take: pageSize,
+        where:{
+            projectName:{
+                contains: projectName,
+            }
+        }
       }),
-      prisma.goviewProject.count(),
+      prisma.goviewProject.count({
+        where:{
+            projectName:{
+                contains: projectName,
+            }
+        }
+      }),
     ]);
     ctx.body = {
       code: 200,
@@ -90,18 +102,20 @@ export default class GoviewProjectController extends BaseController {
    * 移除
    */
   async remove(ctx: AppRouterContext, next: Koa.Next) {
-    const ids = ctx.params["ids"];
-    await prisma.goviewProject.deleteMany({
-      where: {
-        id: {
-          in: ids.split(","),
-        },
-      },
-    });
-    ctx.body = {
-      code: 200,
-      msg: "success",
-    };
+    const query = ctx.query
+    const ids = parseQuery(query, "ids");
+    if(ids){
+        await prisma.goviewProject.deleteMany({
+            where: {
+              id: ids,
+            },
+          });
+          ctx.body = {
+            code: 200,
+            msg: "success",
+          };
+    }
+    
   }
   /**
    * 发布/取消项目状态
@@ -148,6 +162,7 @@ export default class GoviewProjectController extends BaseController {
       ctx.body = super.ajaxSuccess({
         ...goviewProject,
         content: goviewProjectData.content,
+        version: goviewProjectData.version
       });
     } else {
       ctx.body = super.ajaxSuccess("项目数据不存在");
@@ -165,7 +180,7 @@ export default class GoviewProjectController extends BaseController {
       },
     });
     if (goviewProject === null) {
-      super.ajaxFailed("项目不存在");
+        ctx.body=super.ajaxFailed("项目不存在");
     } else {
       const goviewProjectData = await prisma.goviewProjectData.findFirst({
         where: {
@@ -176,7 +191,16 @@ export default class GoviewProjectController extends BaseController {
         },
       });
       if (goviewProjectData === null) {
-        super.ajaxFailed("项目数据不存在");
+        const content = JSON.stringify(JSON.parse(body.content))
+        console.log(content)
+        await prisma.goviewProjectData.create({
+            data: {
+              projectId: projectId,
+              version: 1,
+              content: body.content,
+            },
+          });
+          ctx.body=super.ajaxSuccess("数据保存成功");
       } else {
         await prisma.goviewProjectData.create({
           data: {
@@ -185,7 +209,7 @@ export default class GoviewProjectController extends BaseController {
             content: body.content,
           },
         });
-        super.ajaxSuccess("数据保存成功");
+        ctx.body=super.ajaxSuccess("数据保存成功");
       }
     }
   }
@@ -194,20 +218,20 @@ export default class GoviewProjectController extends BaseController {
    */
   async upload(ctx: AppRouterContext, next: Koa.Next) {
     const files = ctx.request.files;
-    if (ctx.request.files) {
-      const { file } = ctx.request.files;
-      if (file) {
-        if (!Array.isArray(file)) {
-          this.ajaxSuccess("上传成功", {
-            filepath: file.filepath,
-            filename: file.newFilename,
-            originalfilename: file.originalFilename,
-            url: "/upload/" + file.newFilename,
+    if (files) {
+      if(!Array.isArray(files.object)){
+        ctx.body=super.ajaxSuccess("上传成功", {
+            bucketName:null,
+            filePath: files.object.filepath,
+            fileName: files.object.newFilename,
+            originalFilename: files.object.originalFilename,
+            url: "/upload/" + files.object.newFilename,
           });
-        }
       }
+          
+      
     } else {
-      this.ajaxFailed("上传失败");
+      ctx.body=super.ajaxFailed("上传失败");
     }
   }
 }

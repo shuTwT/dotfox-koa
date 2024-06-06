@@ -30,8 +30,10 @@ export default class GoviewSysController extends BaseController {
         })
     }
     async getOssInfo(ctx: AppRouterContext, next: Next) {
+        const bucketURL = process.env.bucketURL ?? "https://admin.mtruning.club/static/file_upload/"
         ctx.body=super.ajaxSuccess({
-            bucketUrl:"https://admin.mtruning.club/static/file_upload/"
+            //bucketURL:"https://admin.mtruning.club/static/file_upload/"
+            bucketURL:bucketURL
         })
     }
 }
