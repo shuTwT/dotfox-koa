@@ -12,6 +12,6 @@ export const dictTypes=[
         dictName:'数据大屏类型',
         dictType:'data_screen_category',
         status:"1",
-        remark:'菜单状态列表'
+        remark:'数据大屏类型'
     }
 ] as Partial<SysDictType>[]
