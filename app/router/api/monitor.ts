@@ -495,9 +495,9 @@ export interface SystemInfo {
   userDir: string;
 }
 
-monitorRouter.get("/serverInfo", serverController.getInfo);
+monitorRouter.get("/server/info", serverController.getInfo);
 
-monitorRouter.get("/cacheInfo", cacheController.getInfo);
+monitorRouter.get("/cache/info", cacheController.getInfo);
 monitorRouter.get("/cache/get-names",cacheController.getNames)
 monitorRouter.get("/cache/get-value/:cache-name/:cacheKey",cacheController.getValue)
 monitorRouter.delete("/cache/clear-cache-name/:cacheName",cacheController.clearCacheName)
