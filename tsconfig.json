@@ -7,7 +7,7 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "lib": ["ES2018"],
+    "lib": ["ES2021"],
     "module": "ESNext",
     "moduleResolution": "Node",
     "noEmit": true,

@@ -3,7 +3,7 @@ import Router from "koa-router";
 import { authRouter } from "./auth.js";
 import { systemRouter } from "./system/index.js";
 import { asyncRoutesRouter } from "./asyncRoutes.js";
-import { monitorRouter } from "./system/monitor.js";
+import { monitorRouter } from "./monitor.js";
 import { uploadRouter } from "./upload.js";
 import { toolRouter } from "./tool/index.js";
 import { flowableRouter } from "./flowable.js";

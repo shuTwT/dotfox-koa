@@ -1,14 +1,15 @@
 import type { DefaultState, Context } from "koa";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import Router from "koa-router";
-import prisma from "../../../utils/prisma";
-import { parseQuery, str2num } from "../../../utils/utils";
-import dayjs from "dayjs";
 import os from "node:os";
 import process from "node:process";
-import redis from "../../../utils/redis";
+import redis from "../../utils/redis";
+import ServerController from "app/controller/monitor/server.controller";
+import CacheController from "app/controller/monitor/cache.controller";
 
 const monitorRouter = new Router<DefaultState, Context>({ prefix: "/monitor" });
+const serverController = new ServerController()
+const cacheController = new CacheController()
 
 monitorRouter.get("/online-logs", async (ctx, next) => {
   const keys = await redis.keys("login_tokens:*");
@@ -494,44 +495,12 @@ export interface SystemInfo {
   userDir: string;
 }
 
-monitorRouter.get("/serverInfo", async (ctx, next) => {
-  const cpus = os.cpus();
-  const loadavg = os.loadavg().map((load) => load / cpus.length);
-  // 当前 node 进程内存使用情况
-  const mem = process.memoryUsage();
-  // 获取系统空闲内存
-  const systemFree = os.freemem()
-  // 获取系统总内存
-  const systemTotal = os.totalmem()
-  const memoryInfo = {
-    free: 0,
-    total: Math.floor(mem.heapTotal / 1024 / 1024 / 1024 * 100) / 100,
-    usage: Math.floor(mem.heapUsed / mem.heapTotal * 100) / 100,
-    used: Math.floor(mem.heapUsed / 1024 / 1024 / 1024 * 100) / 100,
-  };
-  memoryInfo.free = memoryInfo.total - memoryInfo.used
-  ctx.body = {
-    code: 200,
-    msg: "success",
-    data: {
-      cpuInfo: {
-        cpuNum: cpus.length,
-        free: 100 - loadavg[0],
-        sys: loadavg[0],
-        total: loadavg[0],
-        used: loadavg[0],
-        wait: loadavg[0],
-      },
-      memoryInfo: {
-        free: 0,
-        total: 0,
-        usage: 0,
-        used: 0,
-      },
-    } as ServerInfo,
-  };
-});
+monitorRouter.get("/serverInfo", serverController.getInfo);
 
-monitorRouter.get("/cacheInfo", async (ctx, next) => {});
-
+monitorRouter.get("/cacheInfo", cacheController.getInfo);
+monitorRouter.get("/cache/get-names",cacheController.getNames)
+monitorRouter.get("/cache/get-value/:cache-name/:cacheKey",cacheController.getValue)
+monitorRouter.delete("/cache/clear-cache-name/:cacheName",cacheController.clearCacheName)
+monitorRouter.delete("/cache/clear-cache-key/:cacheKey",cacheController.clearCacheKey)
+monitorRouter.delete("/cache/clear-cache-all",cacheController.clearCacheAll)
 export { monitorRouter };
