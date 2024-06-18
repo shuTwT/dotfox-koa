@@ -23,15 +23,13 @@
     "@types/node": "^20.12.12",
     "@types/ua-parser-js": "^0.7.39",
     "cross-env": "^7.0.3",
-    "prisma": "^5.14.0",
+    "prisma": "^5.15.0",
     "tsx": "^4.11.0",
     "typescript": "5.3.3"
   },
   "dependencies": {
     "@camunda8/sdk": "^8.6.2",
-    "@prisma/client": "^5.14.0",
-    "@types/xml2js": "^0.4.14",
-    "bpmn-moddle": "^9.0.1",
+    "@prisma/client": "^5.15.0",
     "captcha.gif": "^1.0.11",
     "cron": "^3.1.7",
     "dayjs": "^1.11.11",
@@ -47,8 +45,7 @@
     "node-disk-info": "^1.3.0",
     "node-fetch": "^3.3.2",
     "reflect-metadata": "^0.2.2",
-    "ua-parser-js": "^1.0.37",
-    "xml2js": "^0.6.2"
+    "ua-parser-js": "^1.0.37"
   },
   "engines": {
     "node": ">=18.0.0"

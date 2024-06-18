@@ -1,6 +1,6 @@
 import { BaseController } from "app/common/base/baseController";
 import prisma from "app/utils/prisma";
-import { BpmnService } from "app/service/bpmnService";
+import { BpmnService } from "app/service/bpmn.service";
 import { parseQuery, str2num } from "app/utils/utils";
 
 
