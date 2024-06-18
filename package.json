@@ -28,6 +28,7 @@
     "typescript": "5.3.3"
   },
   "dependencies": {
+    "@camunda8/sdk": "^8.6.2",
     "@prisma/client": "^5.14.0",
     "@types/xml2js": "^0.4.14",
     "bpmn-moddle": "^9.0.1",
