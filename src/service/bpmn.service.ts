@@ -1,10 +1,11 @@
 // https://docs.camunda.io/docs/apis-tools/node-js-sdk/
 // https://github.com/camunda/camunda-platform#using-docker-compose
+import { Provide } from '@midwayjs/core';
 import { Camunda8 } from '@camunda8/sdk'
 import { TaskState } from '@camunda8/sdk/dist/tasklist/lib/TasklistDto'
-import log4js from 'app/utils/log4js'
+import log4js from 'src/utils/log4js'
 
-
+Provide()
 export class BpmnService {
   camunda
   zeebe

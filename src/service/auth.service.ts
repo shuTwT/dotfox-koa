@@ -1,17 +1,18 @@
-import { BaseService } from "app/common/base/baseService";
-import prisma from "app/utils/prisma";
+import { Provide } from '@midwayjs/core';
+import prisma from "..//utils/prisma";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { Captcha } from "captcha.gif";
-import redis from "app/utils/redis";
+import redis from "../utils/redis";
 import crypto from "node:crypto";
-import { getAddressByIp } from "app/common/utils/ip";
-import { parseQuery, str2num } from "app/utils/utils";
+import { getAddressByIp } from "../common/utils/ip";
+import { parseQuery, str2num } from "../utils/utils";
 import { nanoid } from "nanoid";
 import dayjs from "dayjs";
 
 const captcha = new Captcha();
 
-export default class AuthService extends BaseService {
+@Provide()
+export class AuthService{
   async login(uuid:string,username:string,password:string,ip:string,ua:any) {
     const md5 = crypto.createHash("md5");
     const address = await getAddressByIp(ip);

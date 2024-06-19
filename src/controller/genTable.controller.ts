@@ -1,8 +1,8 @@
-import { BaseController } from "app/common/base/baseController";
+import { BaseController } from "src/common/base/baseController";
 import type Koa from "koa";
-import prisma from "app/utils/prisma";
-import { parseQuery, str2num } from "app/utils/utils";
-import { GenTableService } from "app/service/tool/genTableService";
+import prisma from "src/utils/prisma";
+import { parseQuery, str2num } from "src/utils/utils";
+import { GenTableService } from "src/service/tool/genTable.service";
 const genTableService = new GenTableService();
 export default class GenTableController extends BaseController {
   /**

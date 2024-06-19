@@ -1,10 +1,12 @@
+import { Provide } from '@midwayjs/core';
 import path from "node:path";
 import { Prisma, type GenTable } from "@prisma/client";
-import log4js from "app/utils/log4js";
-import prisma from "app/utils/prisma";
-import { TableEntity } from "app/common/entity/tableEntity";
-import { BaseService } from "app/common/base/baseService";
-export class GenTableService extends BaseService {
+import log4js from "src/utils/log4js";
+import prisma from "src/utils/prisma";
+import { TableEntity } from "src/common/entity/tableEntity";
+
+@Provide()
+export class GenTableService {
   async selectGentableById(id: number): Promise<GenTable | void> {
     try {
       const genTable = await prisma.genTable.findUnique({

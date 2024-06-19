@@ -1,8 +1,6 @@
 import type { DefaultState, Context } from "koa";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import Router from "koa-router";
-import os from "node:os";
-import process from "node:process";
 import redis from "../../utils/redis";
 import ServerController from "app/controller/monitor/server.controller";
 import CacheController from "app/controller/monitor/cache.controller";

@@ -1,11 +1,11 @@
-import { BaseService } from "app/common/base/baseService";
-import redis from "app/utils/redis";
+import { Provide } from '@midwayjs/core';
+import redis from "src/utils/redis";
 import { Redis } from "ioredis";
 
-export default class RedisService extends BaseService {
+@Provide()
+export class RedisService  {
     client:Redis
     constructor(){
-        super()
         this.client = redis
     }
     async getInfo(){

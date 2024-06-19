@@ -1,15 +1,14 @@
+import { Provide } from '@midwayjs/core';
 import { SysConfig } from "@prisma/client";
 import { CacheConstants } from "app/common/constant/CacheConstants";
 import prisma from "app/utils/prisma";
 import redis from "app/utils/redis";
 
-let isInited = false;
 
+@Provide()
 export class SysConfigService {
   constructor() {
-    if (!isInited) {
       this.init();
-    }
   }
   init() {
     this.loadConfigCache();

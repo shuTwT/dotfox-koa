@@ -9,6 +9,8 @@ import { parseQuery, str2num } from "app/utils/utils";
 import { nanoid } from "nanoid";
 import dayjs from "dayjs";
 import AuthService from "app/service/authService";
+import { Controller, Inject, Post } from "@midwayjs/core";
+import { Context } from "@midwayjs/koa";
 
 type LoginBody = {
   username: string;
@@ -24,7 +26,11 @@ const captcha = new Captcha();
 
 const authService = new AuthService()
 
+@Controller()
 export default class AuthController extends BaseController {
+  @Inject()
+  ctx:Context;
+  @Post('/login')
   async login(ctx: AppRouterContext, next: Next) {
     const body = ctx.request.body;
     const uuid = body.uuid;
