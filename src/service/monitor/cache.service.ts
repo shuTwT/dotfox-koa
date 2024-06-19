@@ -1,8 +1,9 @@
-import { BaseService } from "app/common/base/baseService";
-import RedisService from "../redis.service";
+import { Provide } from '@midwayjs/core';
+import {RedisService} from "../redis.service";
 
 const redisService = new RedisService()
-export default class CacheService extends BaseService {
+@Provide()
+export class CacheService {
     
     /**
      * 缓存监控

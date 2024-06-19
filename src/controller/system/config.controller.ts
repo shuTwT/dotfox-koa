@@ -1,7 +1,7 @@
-import { BaseController } from "app/common/base/baseController";
+import { BaseController } from "src/common/base/baseController";
 import type Koa from "koa";
-import prisma from "app/utils/prisma";
-import { parseQuery, str2num } from "app/utils/utils";
+import prisma from "src/utils/prisma";
+import { parseQuery, str2num } from "src/utils/utils";
 import dayjs from "dayjs";
 
 export default class ConfigController extends BaseController {

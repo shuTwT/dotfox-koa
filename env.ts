@@ -1,6 +1,6 @@
 import UAParser from "ua-parser-js";
-import log4js from "app/utils/log4js";
-import { LoginUser } from "app/core/model/LoginUser";
+import log4js from "src/utils/log4js";
+import { LoginUser } from "src/common/core/model/LoginUser";
 import type { Context, DefaultState, ParameterizedContext } from "koa";
 import Router from "koa-router";
 

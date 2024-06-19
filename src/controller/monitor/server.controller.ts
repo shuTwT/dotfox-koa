@@ -1,5 +1,5 @@
-import { BaseController } from "app/common/base/baseController";
-import ServerService from "app/service/monitor/server.service";
+import { BaseController } from "src/common/base/baseController";
+import {ServerService} from "src/service/monitor/server.service";
 
 const serverService = new ServerService()
 export default class ServerController extends BaseController {

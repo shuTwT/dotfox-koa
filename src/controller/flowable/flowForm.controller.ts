@@ -1,6 +1,6 @@
-import { BaseController } from "app/common/base/baseController";
-import prisma from "app/utils/prisma";
-import { parseQuery, str2num } from "app/utils/utils";
+import { BaseController } from "src/common/base/baseController";
+import prisma from "src/utils/prisma";
+import { parseQuery, str2num } from "src/utils/utils";
 
 export default class FlowFormController extends BaseController {
   /**

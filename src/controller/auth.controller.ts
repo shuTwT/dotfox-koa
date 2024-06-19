@@ -1,16 +1,16 @@
-import { BaseController } from "app/common/base/baseController";
-import prisma from "app/utils/prisma";
+import { BaseController } from "src/common/base/baseController";
+import prisma from "src/utils/prisma";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { Captcha } from "captcha.gif";
-import redis from "app/utils/redis";
+import redis from "src/utils/redis";
 import crypto from "node:crypto";
-import { getAddressByIp } from "app/common/utils/ip";
-import { parseQuery, str2num } from "app/utils/utils";
+import { getAddressByIp } from "src/common/utils/ip";
+import { parseQuery, str2num } from "src/utils/utils";
 import { nanoid } from "nanoid";
 import dayjs from "dayjs";
-import AuthService from "app/service/authService";
+import {AuthService} from "src/service/auth.service";
 import { Controller, Inject, Post } from "@midwayjs/core";
-import { Context } from "@midwayjs/koa";
+import type { Context } from "@midwayjs/koa";
 
 type LoginBody = {
   username: string;
@@ -29,7 +29,7 @@ const authService = new AuthService()
 @Controller()
 export default class AuthController extends BaseController {
   @Inject()
-  ctx:Context;
+  ctx!: Context;
   @Post('/login')
   async login(ctx: AppRouterContext, next: Next) {
     const body = ctx.request.body;

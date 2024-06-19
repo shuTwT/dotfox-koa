@@ -1,6 +1,6 @@
-import { BaseController } from "app/common/base/baseController";
-import CacheService from "app/service/monitor/cache.service";
-import redis from "app/utils/redis";
+import { BaseController } from "src/common/base/baseController";
+import {CacheService} from "src/service/monitor/cache.service";
+import redis from "src/utils/redis";
 
 const cacheService = new CacheService()
 export default class CacheController extends BaseController {

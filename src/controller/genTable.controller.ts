@@ -1,5 +1,4 @@
 import { BaseController } from "src/common/base/baseController";
-import type Koa from "koa";
 import prisma from "src/utils/prisma";
 import { parseQuery, str2num } from "src/utils/utils";
 import { GenTableService } from "src/service/tool/genTable.service";

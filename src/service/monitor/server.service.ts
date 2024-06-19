@@ -1,9 +1,10 @@
+import { Provide } from '@midwayjs/core';
 import os, { networkInterfaces } from "node:os"
 import path from "node:path"
-import { BaseService } from "app/common/base/baseService";
 import * as nodeDiskInfo from 'node-disk-info';
 
-export default class ServerService extends BaseService {
+@Provide()
+export class ServerService {
     /**
      * 获取信息
      */

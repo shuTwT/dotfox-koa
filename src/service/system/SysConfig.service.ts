@@ -1,8 +1,8 @@
 import { Provide } from '@midwayjs/core';
 import { SysConfig } from "@prisma/client";
-import { CacheConstants } from "app/common/constant/CacheConstants";
-import prisma from "app/utils/prisma";
-import redis from "app/utils/redis";
+import { CacheConstants } from "src/common/constant/CacheConstants";
+import prisma from "src/utils/prisma";
+import redis from "src/utils/redis";
 
 
 @Provide()

@@ -20,7 +20,7 @@ import { ReportMiddleware } from './middleware/report.middleware';
 })
 export class MainConfiguration {
   @App('koa')
-  app: koa.Application;
+  app!: koa.Application;
 
   async onReady() {
     // add middleware

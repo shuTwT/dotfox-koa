@@ -1,5 +1,5 @@
-import { BaseController } from "app/common/base/baseController";
-import prisma from "app/utils/prisma";
+import { BaseController } from "src/common/base/baseController";
+import prisma from "src/utils/prisma";
 
 /** 递归删除子菜单 */
 async function deleteMenuChildren(pid: number) {

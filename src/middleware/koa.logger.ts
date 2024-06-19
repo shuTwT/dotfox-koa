@@ -1,5 +1,5 @@
 import { Context, Next } from "koa";
-import * as log4js from "app/utils/log4js.js"
+import * as log4js from "src/utils/log4js.js"
 
 export default function(){
     return async function(ctx:Context,next:Next){
